@@ -317,12 +317,13 @@
       width: 100%;
       height: 100%;
       overflow: visible;
-      filter: drop-shadow(0 8px 16px rgba(35, 20, 5, 0.22));
+      /* Tranh drop-shadow tren tung SVG vi rat ton chi phi khi co nhieu hoa */
+      filter: none;
     }
 
-    /* Hoa nhỏ ở hậu cảnh dùng ít hiệu ứng để giảm tải render */
-    .sunflower-entity.simple .sunflower-svg {
-      filter: none;
+    /* Hoa dang cho den luot se chua tham gia layout paint */
+    .sunflower-entity.flower-pending {
+      visibility: hidden;
     }
 
     /* Thân mọc từ gốc lên trước khi đầu hoa bung cánh */
@@ -1697,7 +1698,8 @@
         const sepalCount = isSmallFlower ? 8 : isMediumFlower ? 10 : 14;
         const petalCount = isSmallFlower ? 10 : isMediumFlower ? 14 : 22;
         const innerCount = isSmallFlower ? 8 : isMediumFlower ? 10 : 16;
-        const petalFilter = isSmallFlower ? '' : `filter="url(#petalShadow_${idIndex})"`;
+        // Bo filter rieng tren tung canh hoa de giam chi phi SVG/compositing.
+        const petalFilter = '';
 
         let greenCenterDots = '';
         const cg = 2.8;
@@ -2010,22 +2012,18 @@
           this.renderFrame = null;
         }
 
-        // Nở theo từng làn từ hai đầu chiều sâu tiến vào giữa:
-        // hậu cảnh ngoài cùng -> tiền cảnh -> hậu cảnh trong -> trung cảnh.
-        // Dùng thứ tự render thay cho setTimeout dài để tránh hoa đã render nhưng chờ nở.
-        const bloomRank = (cfg) => {
-          if (cfg.zIndex <= 7) return 0;
-          if (cfg.zIndex >= 14) return 1;
-          if (cfg.zIndex <= 9) return 2;
-          return 3;
-        };
-        const orderedFlowerConfigs = flowerConfigs
-          .map((config, originalIndex) => ({ config, originalIndex }))
-          .sort((a, b) => bloomRank(a.config) - bloomRank(b.config) || a.originalIndex - b.originalIndex);
+        // Xao tron thu tu xuat hien moi lan khoi tao, nhung giu nguyen vi tri va z-index cua hoa.
+        const orderedFlowerConfigs = flowerConfigs.map((config, originalIndex) => ({ config, originalIndex }));
+        for (let i = orderedFlowerConfigs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [orderedFlowerConfigs[i], orderedFlowerConfigs[j]] = [orderedFlowerConfigs[j], orderedFlowerConfigs[i]];
+        }
 
         let index = 0;
-        // Moi khung hinh chi tao 2 SVG, tranh tac vu JS dai gay khung animation.
-        const batchSize = 2;
+        // Moi khung hinh chi tao mot SVG, tranh dung hinh khi tao nhieu node SVG.
+        const batchSize = 1;
+        // Gian cach khoi dong animation de khong bung canh 42 bong cung luc.
+        const bloomInterval = 90;
         const processBatch = () => {
           if (renderToken !== this.renderToken) return;
 
@@ -2037,7 +2035,7 @@
             const renderPosition = index++;
             const { config: cfg, originalIndex: idx } = orderedFlowerConfigs[renderPosition];
             const flowerEl = document.createElement('div');
-            flowerEl.className = 'sunflower-entity bud';
+            flowerEl.className = 'sunflower-entity bud flower-pending';
             if (cfg.height <= 200) flowerEl.classList.add('simple');
             if (cfg.zIndex >= 14) flowerEl.classList.add('foreground');
             flowerEl.id = `flower-${idx}`;
@@ -2052,7 +2050,7 @@
 
             flowerEl.innerHTML = this.createSunflowerSVG(idx, cfg);
             fragment.appendChild(flowerEl);
-            batchFlowers.push({ el: flowerEl, config: cfg, index: idx });
+            batchFlowers.push({ el: flowerEl, config: cfg, index: idx, renderPosition });
 
             this.flowers.push({
               el: flowerEl,
@@ -2064,21 +2062,21 @@
 
           this.container.appendChild(fragment);
 
-          // Bat dau dung dua ngay sau khi them vao DOM.
-          // Hai frame cho trinh duyet ghi nhan trang thai bud truoc khi bung canh,
-          // tranh viec CSS bo qua trang thai ban dau va tao cam giac hoa bi dung.
+          // Khoi dong tung hoa lech nhau, giam so animation SVG chay dong thoi.
           for (const flower of batchFlowers) {
-            if (renderToken !== this.renderToken || !flower.el.isConnected) continue;
-            const swayType = flower.config.sway || ((flower.index % 3) + 1);
-            flower.el.classList.add(`swaying-${swayType}`);
-            flower.el.classList.add('growing');
-
-            // Cho than moc tu goc len truoc; dau hoa bung canh sau khi than gan hoan tat.
             window.setTimeout(() => {
               if (renderToken !== this.renderToken || !flower.el.isConnected) return;
-              flower.el.classList.remove('growing', 'bud');
-              flower.el.classList.add('bloomed');
-            }, 520);
+              const swayType = flower.config.sway || ((flower.index % 3) + 1);
+              flower.el.classList.remove('flower-pending');
+              flower.el.classList.add(`swaying-${swayType}`, 'growing');
+
+              // Than moc tu goc len; dau hoa chi bung sau khi than gan hoan tat.
+              window.setTimeout(() => {
+                if (renderToken !== this.renderToken || !flower.el.isConnected) return;
+                flower.el.classList.remove('growing', 'bud');
+                flower.el.classList.add('bloomed');
+              }, 520);
+            }, flower.renderPosition * bloomInterval);
           }
 
           if (index < orderedFlowerConfigs.length) {
