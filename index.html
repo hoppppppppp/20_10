@@ -112,26 +112,24 @@
         rgba(255, 183, 3, 0.45) 70%,
         rgba(255, 183, 3, 0) 95%
       );
-      filter: drop-shadow(0 0 45px rgba(255, 215, 0, 0.65));
       animation: sunPulse 6s ease-in-out infinite alternate;
       pointer-events: none;
       z-index: 2;
     }
 
     @keyframes sunPulse {
-      0% { transform: scale(0.96); filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.5)); }
-      100% { transform: scale(1.06); filter: drop-shadow(0 0 65px rgba(255, 200, 0, 0.85)); }
+      0% { transform: scale(0.98); }
+      100% { transform: scale(1.03); }
     }
 
     /* Tia nắng (God Rays) mềm mại */
     .god-rays {
       position: absolute;
-      top: -10%;
-      right: 5%;
-      width: 120vw;
-      height: 120vh;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       background: repeating-conic-gradient(
-        from 135deg at 75% 20%,
+        from 135deg at calc(82% - 65px) calc(14% + 65px),
         rgba(255, 255, 230, 0.08) 0deg 8deg,
         rgba(255, 255, 255, 0) 8deg 24deg,
         rgba(255, 240, 180, 0.06) 24deg 32deg,
@@ -164,7 +162,6 @@
     .cloud {
       position: absolute;
       fill: rgba(255, 255, 255, 0.72);
-      filter: drop-shadow(0 6px 12px rgba(180, 210, 230, 0.4));
       animation: cloudDrift linear infinite;
     }
 
@@ -278,16 +275,6 @@
       z-index: 15;
     }
 
-    /* Canvas rieng cho hieu ung nut yeu thuong, nam tren lop thiep */
-    #card-burst-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 40;
-    }
-
     /* ==========================================================================
        3. VƯỜN HOA HƯỚNG DƯƠNG ĐA TẦNG CHIỀU SÂU (MULTI-LAYER SUNFLOWER FIELD)
        ========================================================================== */
@@ -304,63 +291,26 @@
     .sunflower-entity {
       position: absolute;
       transform-origin: bottom center;
-      cursor: pointer;
-      pointer-events: auto;
-      transition: filter 0.35s ease;
+      cursor: default;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1.15s ease-out;
+      will-change: transform, opacity;
     }
 
-    .sunflower-entity:hover {
-      filter: drop-shadow(0 0 20px rgba(255, 183, 3, 0.95)) brightness(1.08) !important;
-    }
 
     .sunflower-svg {
       width: 100%;
       height: 100%;
       overflow: visible;
-      /* Tranh drop-shadow tren tung SVG vi rat ton chi phi khi co nhieu hoa */
       filter: none;
     }
 
-    /* Hoa dang cho den luot se chua tham gia layout paint */
-    .sunflower-entity.flower-pending {
-      visibility: hidden;
-    }
-
-    /* Thân mọc từ gốc lên trước khi đầu hoa bung cánh */
-    .flower-stem {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 0;
-    }
-
-    .sunflower-entity.growing .flower-stem {
-      stroke-dashoffset: 1;
-      animation: stemGrowUp 0.52s cubic-bezier(0.22, 0.72, 0.28, 1) forwards;
-    }
-
-    @keyframes stemGrowUp {
-      from { stroke-dashoffset: 1; }
-      to { stroke-dashoffset: 0; }
-    }
-
-    .flower-leaves {
-      opacity: 1;
-      transition: opacity 0.22s ease-out;
-    }
-
-    .sunflower-entity.growing .flower-leaves {
-      opacity: 0;
-      animation: leavesAppear 0.22s ease-out 0.28s forwards;
-    }
-
-    @keyframes leavesAppear {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* Đầu hoa chỉ bung sau khi thân đã mọc gần hoàn chỉnh */
+    /* Hiệu ứng nở của hoa */
     .flower-head {
       transform-origin: 150px 150px;
       transition: transform 1.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+      will-change: transform;
     }
 
     /* Cánh hoa xòe dần theo từng lớp */
@@ -374,18 +324,13 @@
       opacity: 0.1;
     }
 
-    .sunflower-entity.bloomed .petal-ring {
-      transform: scale(1) rotate(0deg);
+    .sunflower-entity.bloomed {
       opacity: 1;
     }
 
-    /* Hoa tiền cảnh nở chậm hơn để tạo chiều sâu cho làn sóng nở */
-    .sunflower-entity.foreground .petal-ring {
-      transition-duration: 2.25s, 1.25s;
-    }
-
-    .sunflower-entity.foreground .flower-disk {
-      transition-duration: 2.35s;
+    .sunflower-entity.bloomed .petal-ring {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
     }
 
     /* Nhụy hoa xoay nhẹ khi nở */
@@ -404,66 +349,45 @@
       opacity: 1;
     }
 
-    /* Chuyen dong tuan hoan lien tuc, khong dung nhip o hai dau animation */
-    .sunflower-entity.swaying-1 {
-      animation: flowerWind1 4.2s linear infinite;
-    }
-    .sunflower-entity.swaying-2 {
-      animation: flowerWind2 5.5s linear infinite;
-    }
-    .sunflower-entity.swaying-3 {
-      animation: flowerWind3 3.6s linear infinite;
+    /* Cay lac ro hon theo gio, xoay quanh goc than de chuyen dong tu nhien */
+    .sunflower-entity {
+      transform-origin: 50% 100%;
+      will-change: transform;
     }
 
-    /* Cac moc trung gian giup chuyen dong lap vong mem hon, khong dung lai o diem doi chieu */
+    .sunflower-entity.swaying-1 {
+      animation: flowerWind1 5.8s ease-in-out -1.4s infinite alternate;
+    }
+    .sunflower-entity.swaying-2 {
+      animation: flowerWind2 6.4s ease-in-out -3.1s infinite alternate;
+    }
+    .sunflower-entity.swaying-3 {
+      animation: flowerWind3 6.1s ease-in-out -2.2s infinite alternate;
+    }
+
     @keyframes flowerWind1 {
-      0%   { transform: rotate(0deg) translateY(0); }
-      12.5% { transform: rotate(1.2deg) translateY(-0.8px); }
-      25%  { transform: rotate(2deg) translateY(-2px); }
-      37.5% { transform: rotate(1.2deg) translateY(-2.8px); }
-      50%  { transform: rotate(0deg) translateY(-3px); }
-      62.5% { transform: rotate(-1.4deg) translateY(-2.2px); }
-      75%  { transform: rotate(-2.2deg) translateY(-1px); }
-      87.5% { transform: rotate(-1.2deg) translateY(-0.3px); }
-      100% { transform: rotate(0deg) translateY(0); }
+      0% { transform: rotate(-5deg); }
+      100% { transform: rotate(5deg); }
     }
 
     @keyframes flowerWind2 {
-      0%   { transform: rotate(0deg) translateY(0); }
-      12.5% { transform: rotate(-1.1deg) translateY(0.5px); }
-      25%  { transform: rotate(-2deg) translateY(1.5px); }
-      37.5% { transform: rotate(-1.2deg) translateY(2.4px); }
-      50%  { transform: rotate(0.2deg) translateY(2.8px); }
-      62.5% { transform: rotate(1.5deg) translateY(2px); }
-      75%  { transform: rotate(2.3deg) translateY(1px); }
-      87.5% { transform: rotate(1.2deg) translateY(0.3px); }
-      100% { transform: rotate(0deg) translateY(0); }
+      0% { transform: rotate(4.5deg); }
+      100% { transform: rotate(-4.5deg); }
     }
 
     @keyframes flowerWind3 {
-      0%   { transform: rotate(0deg) translateY(0); }
-      12.5% { transform: rotate(0.9deg) translateY(-0.5px); }
-      25%  { transform: rotate(1.7deg) translateY(-1.4px); }
-      37.5% { transform: rotate(1deg) translateY(-2px); }
-      50%  { transform: rotate(-0.2deg) translateY(-2.2px); }
-      62.5% { transform: rotate(-1.3deg) translateY(-1.6px); }
-      75%  { transform: rotate(-1.9deg) translateY(-0.8px); }
-      87.5% { transform: rotate(-1deg) translateY(-0.2px); }
-      100% { transform: rotate(0deg) translateY(0); }
+      0% { transform: rotate(-4deg); }
+      100% { transform: rotate(5deg); }
     }
 
-    /* Rung rinh khi được click */
-    .sunflower-entity.jiggle {
-      animation: flowerJiggle 0.65s cubic-bezier(0.36, 0.07, 0.19, 0.97) both !important;
+    @media (prefers-reduced-motion: reduce) {
+      .sunflower-entity.swaying-1,
+      .sunflower-entity.swaying-2,
+      .sunflower-entity.swaying-3 {
+        animation-duration: 12s;
+      }
     }
 
-    @keyframes flowerJiggle {
-      10%, 90% { transform: rotate(-7deg) scale(1.06); }
-      20%, 80% { transform: rotate(8deg) scale(1.1); }
-      30%, 50%, 70% { transform: rotate(-9deg) scale(1.12); }
-      40%, 60% { transform: rotate(9deg) scale(1.12); }
-      100% { transform: rotate(0) scale(1); }
-    }
 
     /* ==========================================================================
        4. CHÚ CHIM ĐƯA THIỆP (SVG ANIMATED BIRD)
@@ -480,6 +404,28 @@
       transform: translate3d(-200px, -200px, 0);
       will-change: transform, opacity;
       filter: drop-shadow(0 8px 14px rgba(40, 30, 20, 0.25));
+    }
+
+    /* Đàn chim đưa thư bay ngang bầu trời; chỉ dùng transform để nhẹ máy */
+    .messenger-bird-flock {
+      position: absolute;
+      left: -130px;
+      width: 62px;
+      height: 62px;
+      z-index: 19;
+      pointer-events: none;
+      opacity: 0;
+      will-change: transform, opacity;
+      animation: flockFlyAcross 13s linear infinite;
+    }
+    .messenger-bird-flock svg { width: 100%; height: 100%; overflow: visible; }
+    .messenger-bird-flock .bird-wing-top,
+    .messenger-bird-flock .bird-wing-bottom { animation-duration: 0.32s; }
+    @keyframes flockFlyAcross {
+      0% { transform: translate3d(0, 0, 0) scale(.72); opacity: 0; }
+      7% { opacity: .95; }
+      88% { opacity: .95; }
+      100% { transform: translate3d(calc(100vw + 280px), -55px, 0) scale(.82); opacity: 0; }
     }
 
     /* Đôi cánh vỗ mềm mại */
@@ -542,8 +488,8 @@
       width: 100%;
       height: 100%;
       background: radial-gradient(circle at center, rgba(30, 15, 5, 0.32) 0%, rgba(10, 5, 0, 0.6) 100%);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
       z-index: 30;
       opacity: 0;
       pointer-events: none;
@@ -873,8 +819,8 @@
       height: 46px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
       border: 1.5px solid rgba(230, 195, 130, 0.8);
       box-shadow: 0 6px 18px rgba(60, 30, 10, 0.15);
       color: #5A3515;
@@ -883,7 +829,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.18s ease, background-color 0.18s ease;
     }
 
     .floating-btn:hover {
@@ -898,13 +844,99 @@
     }
 
     /* Nút trigger mở thiệp sớm nếu người dùng không muốn đợi */
+    .letter-actions {
+      position: absolute;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      z-index: 18;
+      width: min(94%, 560px);
+    }
+
+    .letter-actions .open-gift-cta {
+      position: static;
+      transform: none;
+      margin: 0;
+      animation: none;
+    }
+
+    .letter-actions .open-gift-cta:hover {
+      transform: translateY(-3px) scale(1.03);
+    }
+
+    .letter-picker {
+      position: fixed;
+      inset: 0;
+      z-index: 45;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(26, 18, 10, 0.72);
+    }
+
+    .letter-picker.active { display: flex; }
+
+    .letter-picker-panel {
+      width: min(620px, 100%);
+      max-height: 82vh;
+      overflow: auto;
+      background: #fff9e9;
+      border: 2px solid #e5c378;
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.28);
+      color: #633202;
+    }
+
+    .letter-picker-heading { margin: 0 42px 6px 0; font-size: 1.5rem; }
+    .letter-picker-subtitle { margin: 0 0 16px; line-height: 1.5; }
+    .letter-picker-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 12px; }
+    .letter-choice {
+      min-height: 112px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      text-align: center;
+      padding: 14px 10px;
+      border: 1px solid #e5c378;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #fffdf6, #ffefc7);
+      color: #633202;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .letter-choice:hover, .letter-choice:focus-visible { background: #ffedbd; outline: 2px solid #d99a2b; transform: translateY(-2px); box-shadow: 0 5px 14px rgba(120, 73, 8, .12); }
+    .letter-choice .sealed-envelope { font-size: 1.9rem; line-height: 1; }
+    .letter-choice strong { display: block; font-size: .95rem; }
+    .letter-choice span { display: block; font-size: .82rem; line-height: 1.3; opacity: .8; }
+    .letter-picker-close {
+      float: right;
+      border: 0;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      background: #f3e3bc;
+      color: #633202;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
     .open-gift-cta {
       position: absolute;
       bottom: 26px;
       left: 50%;
       transform: translateX(-50%);
       background: linear-gradient(135deg, rgba(255, 245, 220, 0.95) 0%, rgba(255, 225, 150, 0.95) 100%);
-      backdrop-filter: blur(10px);
+      backdrop-filter: none;
       border: 1.5px solid #E5C378;
       border-radius: 35px;
       padding: 10px 24px;
@@ -942,7 +974,7 @@
       width: 100%;
       height: 100%;
       background: rgba(20, 10, 5, 0.65);
-      backdrop-filter: blur(6px);
+      backdrop-filter: none;
       z-index: 45;
       display: flex;
       align-items: center;
@@ -1048,6 +1080,8 @@
       .cover-title { font-size: 1.85rem; }
       .wax-seal { width: 68px; height: 68px; font-size: 1.5rem; }
       .open-gift-cta { font-size: 0.88rem; padding: 8px 18px; bottom: 18px; }
+      .letter-actions { bottom: 18px; gap: 8px; }
+      .letter-picker-panel { padding: 16px; }
       .morning-sun { width: 100px; height: 100px; right: 10%; top: 10%; }
       .top-controls { top: 12px; right: 12px; }
       .floating-btn { width: 42px; height: 42px; font-size: 1.1rem; }
@@ -1174,10 +1208,25 @@
     </div>
 
     <!-- Nút kêu gọi mở thiệp nhanh nếu muốn -->
-    <button id="btn-quick-open" class="open-gift-cta" aria-label="Mở quà chúc mừng ngay">
-      <span style="font-size: 1.25rem;">🎁</span>
-      <span>Mở quà chúc mừng 20/10</span>
-    </button>
+    <div class="letter-actions">
+      <button id="btn-quick-open" class="open-gift-cta" aria-label="Rút ngẫu nhiên một lá thư">
+        <span style="font-size: 1.25rem;">🎁</span>
+        <span id="draw-letter-label">Rút ngẫu nhiên một lá thư</span>
+      </button>
+      <button id="btn-choose-letter" class="open-gift-cta" aria-label="Chọn một lá thư muốn mở">
+        <span style="font-size: 1.15rem;">💌</span>
+        <span>Chọn một lá thư</span>
+      </button>
+    </div>
+
+    <div id="letter-picker" class="letter-picker" role="dialog" aria-modal="true" aria-labelledby="letter-picker-heading">
+      <div class="letter-picker-panel">
+        <button id="btn-close-picker" class="letter-picker-close" aria-label="Đóng danh sách thư">✕</button>
+        <h2 id="letter-picker-heading" class="letter-picker-heading">Chọn một lá thư</h2>
+        <p class="letter-picker-subtitle">Mỗi phong thư đều được niêm kín. Hãy chọn một lá bất kỳ để khám phá lời chúc bên trong, hoặc đóng danh sách và rút ngẫu nhiên như túi mù.</p>
+        <div id="letter-picker-list" class="letter-picker-list"></div>
+      </div>
+    </div>
 
     <!-- 5. TẤM THIỆP TƯƠNG TÁC (3D GREETING CARD MODAL) -->
     <div id="card-modal" class="card-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-salutation">
@@ -1190,9 +1239,9 @@
           <!-- Bìa thiệp gập niêm phong -->
           <div id="card-cover" class="card-sealed-cover" role="button" tabindex="0" aria-label="Bìa thiệp, chạm để mở">
             <div class="wax-seal" aria-hidden="true">🌸</div>
-            <h2 class="cover-title">Gửi Các Bạn Thân Yêu</h2>
+            <h2 class="cover-title">Gửi Những Người Bạn Quý Mến</h2>
             <p style="font-family: var(--font-serif); font-size: 1rem; color: #5C3A1E; margin-bottom: 8px;">
-              Một món quà nhỏ gửi tới những người bạn tuyệt vời
+              Một lời chúc nhỏ gửi đến những người bạn tuyệt vời
             </p>
             <div class="cover-tap-hint">
               <span>✨ Chạm nhẹ để mở thiệp</span>
@@ -1226,7 +1275,7 @@
 
           <!-- Nội dung bức thiệp chính -->
           <div class="card-inner-content">
-            <h1 id="modal-salutation" class="card-salutation">Gửi các bạn thân yêu!</h1>
+            <h1 id="modal-salutation" class="card-salutation">Gửi Những người bạn thân mến!</h1>
             <div class="card-occasion-badge">
               <span>🌻 20 THÁNG 10 🌻</span>
             </div>
@@ -1238,8 +1287,8 @@
 
             <!-- Chữ ký người gửi -->
             <div class="card-signature-box">
-              <div class="card-signature-intro">Thương mến gửi từ,</div>
-              <div id="card-signature-text" class="card-signature-name">– Bạn của các bạn ♥</div>
+              <div class="card-signature-intro">Thân mến gửi đến bạn,</div>
+              <div id="card-signature-text" class="card-signature-name">– Người bạn của bạn ♥</div>
             </div>
 
             <!-- Thanh nút chức năng -->
@@ -1248,44 +1297,9 @@
                 <span>🔁</span>
                 <span>Chúc lại lần nữa</span>
               </button>
-              <button id="btn-open-edit" class="card-btn btn-customize" aria-label="Đổi tên và lời chúc">
-                <span>✏️</span>
-                <span>Sửa lời chúc</span>
-              </button>
-              <button id="btn-burst-hearts" class="card-btn btn-customize" aria-label="Thả hoa và tim chúc mừng">
-                <span>🌸</span>
-                <span>Gửi ngàn yêu thương</span>
-              </button>
             </div>
           </div>
 
-        </div>
-      </div>
-    </div>
-
-    <!-- 6. MODAL TÙY CHỈNH THÔNG TIN (CUSTOMIZE MODAL) -->
-    <div id="edit-modal" class="edit-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="edit-title">
-      <div class="edit-modal-box">
-        <h2 id="edit-title" class="edit-modal-title">🌻 Tùy chỉnh thông điệp 20/10</h2>
-
-        <div class="form-group">
-          <label for="input-recipient">Người nhận (Ví dụ: Mẹ, Cô Lan, Chị Hà, Vợ yêu, Em yêu...):</label>
-          <input type="text" id="input-recipient" class="form-control" maxlength="40">
-        </div>
-
-        <div class="form-group">
-          <label for="input-sender">Người gửi (Tên của bạn):</label>
-          <input type="text" id="input-sender" class="form-control" maxlength="40">
-        </div>
-
-        <div class="form-group">
-          <label for="input-message">Nội dung lời chúc:</label>
-          <textarea id="input-message" class="form-control" rows="4"></textarea>
-        </div>
-
-        <div class="edit-modal-actions">
-          <button type="button" id="btn-cancel-edit" class="btn-cancel-edit">Hủy</button>
-          <button type="button" id="btn-save-edit" class="btn-save-edit">Lưu & Cập nhật</button>
         </div>
       </div>
     </div>
@@ -1301,7 +1315,7 @@
   </main>
 
   <!-- ==========================================================================
-       JAVASCRIPT HOÀN CHỈNH: LOGIC, HOẠT CẢNH, CANVAS & WEB AUDIO API
+       JAVASCRIPT: LOGIC, HOẠT CẢNH & HIỆU ỨNG ĐỒ HỌA
        ========================================================================== -->
   <script>
     /**
@@ -1309,23 +1323,35 @@
      */
     const CONFIG = {
       // 1. Thông tin thiệp chúc mừng
-      recipient: "các bạn thân yêu",       // Tên người nhận
-      sender: "Bạn của các bạn",           // Tên người gửi
+      recipient: "Những người bạn thân mến", // Tên người nhận
+      sender: "Người bạn của bạn",          // Tên người gửi
       occasion: "20 THÁNG 10",            // Dịp kỷ niệm
-      message: "Nhân ngày Phụ nữ Việt Nam 20/10, gửi tới các bạn thân yêu những lời chúc tốt đẹp nhất! Chúc các bạn luôn xinh đẹp, tự tin và tỏa sáng rực rỡ như những đóa hướng dương luôn hướng về phía mặt trời. Mong các bạn luôn vui vẻ, hạnh phúc, dồi dào sức khỏe và gặt hái thật nhiều thành công trong cuộc sống. Cảm ơn các bạn đã luôn đồng hành, sẻ chia và mang đến những khoảnh khắc thật đáng quý!",
+      message: "Nhân ngày Phụ nữ Việt Nam 20/10, chúc những người bạn tuyệt vời của tôi luôn vui vẻ, xinh đẹp, mạnh khỏe và gặp thật nhiều may mắn. Mong mỗi ngày của bạn đều ngập tràn tiếng cười, luôn tự tin theo đuổi điều mình yêu thích và được yêu thương đúng như những gì bạn xứng đáng nhận. Cảm ơn vì đã là những người bạn đáng quý. Chúc bạn luôn rực rỡ và hạnh phúc như những đóa hướng dương!",
+      // Những lá thư khác nhau để mỗi lần rút có một lời chúc bất ngờ.
+      letters: [
+        { sender: "Một người bạn luôn quý mến bạn", message: "Chúc bạn luôn vui vẻ, tự tin và rực rỡ theo cách riêng của mình. Mong những điều dịu dàng nhất sẽ tìm đến bạn, hôm nay và cả những ngày sau." },
+        { sender: "Người luôn mong bạn hạnh phúc", message: "Mong bạn có thật nhiều sức khỏe, luôn được yêu thương và gặp những người trân trọng trái tim tốt bụng của bạn. Chúc mỗi ngày đều có một điều nhỏ bé khiến bạn mỉm cười." },
+        { sender: "Một người bạn bí mật", message: "Bạn xứng đáng với những điều tốt đẹp, những cơ hội tuyệt vời và những niềm vui bất ngờ. Hãy luôn tin vào bản thân và đừng quên rằng bạn đặc biệt hơn mình nghĩ." },
+        { sender: "Người gửi một chút nắng", message: "Chúc bạn luôn tươi tắn như nắng sớm, ấm áp như ánh hoàng hôn và mạnh mẽ trước mọi thử thách. Mong ước mơ của bạn từng bước trở thành hiện thực." },
+        { sender: "Một người bạn thân mến", message: "Cảm ơn vì đã là một người bạn đáng quý. Chúc bạn có những ngày bình yên, những tiếng cười thật lòng và thật nhiều khoảnh khắc đẹp bên những người thương yêu." },
+        { sender: "Người gửi lời chúc từ trái tim", message: "Chúc bạn luôn xinh đẹp, khỏe mạnh, an yên và gặp nhiều may mắn. Dù bận rộn đến đâu, mong bạn vẫn dành thời gian chăm sóc bản thân và làm những điều khiến mình hạnh phúc." },
+        { sender: "Một người bạn luôn cổ vũ bạn", message: "Mong bạn đủ can đảm để theo đuổi điều mình yêu, đủ kiên nhẫn để đi đến cùng và đủ dịu dàng với chính mình trong những ngày không dễ dàng." },
+        { sender: "Người bạn gửi hoa hướng dương", message: "Như những đóa hướng dương luôn hướng về phía sáng, chúc bạn luôn tìm thấy hy vọng, niềm vui và ánh sáng của riêng mình. Chúc bạn một ngày 20/10 thật ấm áp!" },
+        { sender: "Một lá thư đầy yêu thương", message: "Chúc bạn được lắng nghe khi cần sẻ chia, được tiếp sức khi mỏi mệt và được yêu thương mà không cần phải trở thành ai khác. Hãy cứ là chính mình nhé!" },
+        { sender: "Người bạn giấu tên", message: "Một lời chúc nhỏ gửi đến bạn: mong những điều bạn âm thầm cố gắng sẽ nở hoa đúng lúc. Chúc bạn bình an, gặp nhiều thuận lợi và luôn có lý do để hy vọng." }
+      ],
 
       // 2. Tốc độ & thời gian hoạt cảnh
       autoBirdDelay: 3800,                 // Sau bao lâu thì chim bay vào (ms)
       typewriterSpeed: 38,                 // Tốc độ gõ chữ (ms/ký tự)
-      flowerCount: 42,                     // Số lượng hoa hướng dương
+      flowerCount: 42,                     // Số lượng hoa hướng dương phong phú (42 đóa hoa bạt ngàn 4 tầng chiều sâu)
 
-      // 3. Số lượng hạt hiệu ứng (Canvas Particles) - Đã tối ưu giảm để mượt hơn
-      ambientBokehCount: 12,               // Hạt bokeh vàng trôi lơ lửng
-      seaSparkleCount: 15,                 // Đốm sáng lung linh trên mặt biển
-      fallingPetalsMax: 20                 // Cánh hoa rơi khi thiệp mở
+      // 3. Số lượng hạt hiệu ứng (Canvas Particles)
+      ambientBokehCount: 10,               // Hạt bokeh vàng trôi lơ lửng
+      seaSparkleCount: 12,                 // Đốm sáng lung linh trên mặt biển
+      fallingPetalsMax: 0                 // Cánh hoa rơi khi thiệp mở
     };
 
-    /* Âm thanh đã được loại bỏ hoàn toàn để tối ưu hiệu suất */
 
     /* ==========================================================================
        HỆ THỐNG ĐỒ HỌA CANVAS: BOKEH, BIỂN LẤP LÁNH, CÁNH HOA & VỆT CHẠM
@@ -1338,15 +1364,8 @@
         this.height = 0;
         this.bokehParticles = [];
         this.sparkles = [];
-        this.petals = [];
-        this.cardPetals = [];
-        this.cardBurstCanvas = document.createElement('canvas');
-        this.cardBurstCanvas.id = 'card-burst-canvas';
-        this.cardBurstCanvas.setAttribute('aria-hidden', 'true');
-        this.cardBurstCtx = this.cardBurstCanvas.getContext('2d');
-        document.body.appendChild(this.cardBurstCanvas);
-        this.touchSparks = [];
         this.lastTime = performance.now();
+        this.lastCanvasRender = 0;
         this.isTabActive = true;
 
         this.resize();
@@ -1359,19 +1378,16 @@
         });
 
         this.initAtmosphere();
-        this.bindPointer();
         this.loop();
       }
 
       resize() {
         this.width = this.canvas.width = window.innerWidth;
         this.height = this.canvas.height = window.innerHeight;
-        this.cardBurstCanvas.width = window.innerWidth;
-        this.cardBurstCanvas.height = window.innerHeight;
       }
 
       initAtmosphere() {
-        // Hạt bụi vàng lơ lửng trong nắng (Bokeh) - Đã giảm số lượng
+        // Hạt bụi vàng lơ lửng trong nắng (Bokeh)
         this.bokehParticles = [];
         for (let i = 0; i < CONFIG.ambientBokehCount; i++) {
           this.bokehParticles.push({
@@ -1386,7 +1402,7 @@
           });
         }
 
-        // Đốm sáng phản chiếu trên mặt biển - Đã giảm số lượng
+        // Đốm sáng phản chiếu trên mặt biển
         this.sparkles = [];
         const seaTop = this.height * 0.58;
         const seaBottom = this.height * 0.78;
@@ -1400,7 +1416,7 @@
           });
         }
 
-        // Hạt bụi phấn hoa - Đã giảm từ 28 xuống 10
+        // Hạt bụi phấn hoa vàng lấp lánh bay lên từ cánh đồng hoa
         this.pollenParticles = [];
         for (let i = 0; i < 10; i++) {
           this.pollenParticles.push({
@@ -1415,103 +1431,10 @@
         }
       }
 
-      // Hiệu ứng vệt chạm đã được loại bỏ để tối ưu hiệu suất
-      bindPointer() {
-        // Không còn listener pointermove/touchmove để giảm tải GPU/CPU
-      }
+      // Đã tắt các hiệu ứng hạt tương tác để giảm tải khi di chuột/chạm.
+      bindPointer() {}
 
-      // Bắn pháo hoa cánh hoa & trái tim - Giới hạn số lượng để mượt hơn
-      burstCelebration(originX, originY, count = 18) {
-        const actualCount = Math.min(count, CONFIG.fallingPetalsMax);
-        for (let i = 0; i < actualCount; i++) {
-          const angle = Math.random() * Math.PI * 2;
-          const speed = Math.random() * 5 + 2;
-          this.petals.push({
-            x: originX,
-            y: originY,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed - 2.5,
-            gravity: 0.12,
-            rot: Math.random() * 360,
-            rotSpeed: (Math.random() - 0.5) * 7,
-            scale: Math.random() * 0.8 + 0.6,
-            life: 1.0,
-            decay: Math.random() * 0.015 + 0.01,
-            isHeart: Math.random() > 0.6,
-            color: Math.random() > 0.5 ? '#FFB703' : '#FB8500'
-          });
-        }
-      }
-
-      // Hieu ung rieng tren lop thiep, khong dua canvas hieu ung nen len tren giao dien.
-      burstOnCard(originX, originY, count = 18) {
-        const actualCount = Math.min(count, CONFIG.fallingPetalsMax);
-        for (let i = 0; i < actualCount; i++) {
-          const angle = Math.random() * Math.PI * 2;
-          const speed = Math.random() * 5 + 2;
-          this.cardPetals.push({
-            x: originX,
-            y: originY,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed - 2.5,
-            gravity: 0.12,
-            rot: Math.random() * 360,
-            rotSpeed: (Math.random() - 0.5) * 7,
-            scale: Math.random() * 0.8 + 0.6,
-            life: 1,
-            decay: Math.random() * 0.015 + 0.01,
-            isHeart: Math.random() > 0.4,
-            color: Math.random() > 0.5 ? '#FFB703' : '#FB8500'
-          });
-        }
-      }
-
-      updateCardBurst() {
-        const ctx = this.cardBurstCtx;
-        ctx.clearRect(0, 0, this.width, this.height);
-
-        for (let i = this.cardPetals.length - 1; i >= 0; i--) {
-          const pt = this.cardPetals[i];
-          pt.x += pt.vx;
-          pt.y += pt.vy;
-          pt.vy += pt.gravity;
-          pt.vx *= 0.985;
-          pt.rot += pt.rotSpeed;
-          pt.life -= pt.decay;
-
-          if (pt.life <= 0 || pt.y > this.height + 40) {
-            this.cardPetals.splice(i, 1);
-            continue;
-          }
-
-          ctx.save();
-          ctx.translate(pt.x, pt.y);
-          ctx.rotate((pt.rot * Math.PI) / 180);
-          ctx.scale(pt.scale, pt.scale);
-          ctx.globalAlpha = pt.life;
-
-          if (pt.isHeart) {
-            ctx.fillStyle = '#E63946';
-            ctx.beginPath();
-            ctx.moveTo(0, 3);
-            ctx.bezierCurveTo(0, 0, -4, -4, -8, -4);
-            ctx.bezierCurveTo(-14, -4, -14, 3, -14, 3);
-            ctx.bezierCurveTo(-14, 8, -6, 14, 0, 18);
-            ctx.bezierCurveTo(6, 14, 14, 8, 14, 3);
-            ctx.bezierCurveTo(14, 3, 14, -4, 8, -4);
-            ctx.bezierCurveTo(4, -4, 0, 0, 0, 3);
-            ctx.fill();
-          } else {
-            ctx.fillStyle = pt.color;
-            ctx.beginPath();
-            ctx.moveTo(0, -14);
-            ctx.quadraticCurveTo(7, -6, 0, 14);
-            ctx.quadraticCurveTo(-7, -6, 0, -14);
-            ctx.fill();
-          }
-          ctx.restore();
-        }
-      }
+      burstCelebration() {}
 
       update(dt) {
         // Cập nhật Bokeh
@@ -1536,30 +1459,6 @@
           }
         }
 
-        // Cập nhật cánh hoa rơi
-        for (let i = this.petals.length - 1; i >= 0; i--) {
-          const pt = this.petals[i];
-          pt.x += pt.vx;
-          pt.y += pt.vy;
-          pt.vy += pt.gravity;
-          pt.vx *= 0.985;
-          pt.rot += pt.rotSpeed;
-          pt.life -= pt.decay;
-          if (pt.life <= 0 || pt.y > this.height + 40) {
-            this.petals.splice(i, 1);
-          }
-        }
-
-        // Cập nhật vệt chạm
-        for (let i = this.touchSparks.length - 1; i >= 0; i--) {
-          const s = this.touchSparks[i];
-          s.x += s.vx;
-          s.y += s.vy;
-          s.life -= s.decay;
-          if (s.life <= 0) {
-            this.touchSparks.splice(i, 1);
-          }
-        }
       }
 
       draw() {
@@ -1619,40 +1518,6 @@
           }
         }
 
-        // 3. Vệt sáng chạm đã loại bỏ
-
-        // 4. Vẽ Cánh hoa & Trái tim bay
-        for (let pt of this.petals) {
-          this.ctx.save();
-          this.ctx.translate(pt.x, pt.y);
-          this.ctx.rotate((pt.rot * Math.PI) / 180);
-          this.ctx.scale(pt.scale, pt.scale);
-          this.ctx.globalAlpha = pt.life;
-
-          if (pt.isHeart) {
-            // Vẽ trái tim nhỏ màu hồng cam
-            this.ctx.fillStyle = '#E63946';
-            this.ctx.beginPath();
-            const topCurveHeight = 4;
-            this.ctx.moveTo(0, 3);
-            this.ctx.bezierCurveTo(0, 0, -4, -4, -8, -4);
-            this.ctx.bezierCurveTo(-14, -4, -14, 3, -14, 3);
-            this.ctx.bezierCurveTo(-14, 8, -6, 14, 0, 18);
-            this.ctx.bezierCurveTo(6, 14, 14, 8, 14, 3);
-            this.ctx.bezierCurveTo(14, 3, 14, -4, 8, -4);
-            this.ctx.bezierCurveTo(4, -4, 0, 0, 0, 3);
-            this.ctx.fill();
-          } else {
-            // Vẽ cánh hoa hướng dương vàng óng
-            this.ctx.fillStyle = pt.color;
-            this.ctx.beginPath();
-            this.ctx.moveTo(0, -14);
-            this.ctx.quadraticCurveTo(7, -6, 0, 14);
-            this.ctx.quadraticCurveTo(-7, -6, 0, -14);
-            this.ctx.fill();
-          }
-          this.ctx.restore();
-        }
       }
 
       loop() {
@@ -1660,12 +1525,13 @@
         if (!this.isTabActive) return;
 
         const now = performance.now();
+        if (now - this.lastCanvasRender < 33) return;
         const dt = (now - this.lastTime) * 0.001;
         this.lastTime = now;
+        this.lastCanvasRender = now;
 
         this.update(dt);
         this.draw();
-        this.updateCardBurst();
       }
     }
 
@@ -1678,8 +1544,6 @@
         this.container = document.getElementById(containerId);
         this.fx = fxEngine;
         this.flowers = [];
-        this.renderToken = 0;
-        this.renderFrame = null;
         this.renderGarden();
         this.bindEvents();
       }
@@ -1688,20 +1552,8 @@
       // Tái hiện chân thực đóa hoa hướng dương với tâm nhụy xanh ô-liu nhung và 3 lớp cánh vàng rực rỡ
       createSunflowerSVG(idIndex, cfg) {
         // 1. Tâm nhụy xanh ô-liu non (Signature Olive-Green Velvet Center như ảnh mẫu)
-        const isSmallFlower = cfg.height <= 200;
-        const isMediumFlower = cfg.height > 200 && cfg.height <= 350;
-        // Giam so node SVG o hoa lon de giam khung hinh bi qua tai khi bat dau no.
-        // Hoa nho van giu it chi tiet hon hoa tien canh de tao chieu sau.
-        const greenDotCount = isSmallFlower ? 8 : isMediumFlower ? 12 : 24;
-        const seedCount = isSmallFlower ? 25 : isMediumFlower ? 40 : 70;
-        const floretCount = isSmallFlower ? 16 : isMediumFlower ? 22 : 32;
-        const sepalCount = isSmallFlower ? 8 : isMediumFlower ? 10 : 14;
-        const petalCount = isSmallFlower ? 10 : isMediumFlower ? 14 : 22;
-        const innerCount = isSmallFlower ? 8 : isMediumFlower ? 10 : 16;
-        // Bo filter rieng tren tung canh hoa de giam chi phi SVG/compositing.
-        const petalFilter = '';
-
         let greenCenterDots = '';
+        const greenDotCount = 16;
         const cg = 2.8;
         for (let g = 0; g < greenDotCount; g++) {
           const rg = cg * Math.sqrt(g);
@@ -1715,6 +1567,7 @@
 
         // 2. Vành hạt nhụy nâu chocolate xếp theo góc vàng chuẩn Fibonacci (137.508 độ)
         let seedDots = '';
+        const seedCount = 48;
         const c = 4.3;
         for (let n = 0; n < seedCount; n++) {
           const r = c * Math.sqrt(n);
@@ -1736,6 +1589,7 @@
 
         // 3. Vành nhụy bao ngoài: 44 ống hoa nhỏ vàng óng (Tubular Florets) tạo viền phấn hoa bồng bềnh
         let floretFringe = '';
+        const floretCount = 20;
         for (let f = 0; f < floretCount; f++) {
           const deg = (360 / floretCount) * f;
           const rad = deg * (Math.PI / 180);
@@ -1749,6 +1603,7 @@
 
         // 4. Lớp đài hoa xanh đỡ đáy (Sepals / Calyx) - 18 lá đài nhọn
         let sepals = '';
+        const sepalCount = 10;
         for (let s = 0; s < sepalCount; s++) {
           const degSepal = (360 / sepalCount) * s;
           sepals += `
@@ -1760,6 +1615,7 @@
         }
 
         // 5. CÁC LỚP CÁNH HOA TÁCH BẠCH RÕ RÀNG NHƯ ẢNH THỰC TẾ (SHARPLY DEFINED 3D PETALS)
+        const petalCount = 18;
 
         // Lớp cánh sau (Back Petals - 28 cánh): Sắc cam hổ phách đậm hơn, có viền nét rõ rệt
         let backPetals = '';
@@ -1802,6 +1658,7 @@
 
         // Lớp cánh nhỏ viền ôm sát nhụy hoa (Inner Accents - 22 cánh)
         let innerPetals = '';
+        const innerCount = 12;
         for (let i = 0; i < innerCount; i++) {
           const deg = (360 / innerCount) * (i + 0.25);
           innerPetals += `
@@ -1821,9 +1678,9 @@
           <svg class="sunflower-svg" viewBox="0 0 300 480" preserveAspectRatio="xMidYMax meet">
             <defs>
               <!-- Bộ lọc đổ bóng mềm giữa các lớp cánh hoa tạo chiều sâu 3D -->
-              ${isSmallFlower ? '' : `<filter id="petalShadow_${idIndex}" x="-25%" y="-25%" width="150%" height="150%">
+              <filter id="petalShadow_${idIndex}" x="-25%" y="-25%" width="150%" height="150%">
                 <feDropShadow dx="0" dy="2.6" stdDeviation="1.8" flood-color="rgba(75, 25, 0, 0.5)"/>
-              </filter>`}
+              </filter>
 
               <!-- Gradient đài hoa xanh -->
               <linearGradient id="sepalGrad_${idIndex}" x1="0%" y1="100%" x2="0%" y2="0%">
@@ -1881,8 +1738,7 @@
 
             <!-- 1. Thân hoa uốn lượn tự nhiên -->
             <path class="flower-stem"
-                  pathLength="1"
-                  d="M150,480 Q${curveX},310 150,150"
+                  d="M150,150 Q${curveX},310 150,480"
                   stroke="url(#stemGrad_${idIndex})"
                   stroke-width="14"
                   stroke-linecap="round"
@@ -1909,6 +1765,13 @@
               </g>
             </g>
 
+            <!-- Thân cây nổi rõ phía trước lá để tránh bị che khuất hoặc mất nét -->
+            <path class="flower-stem-visible"
+                  d="M150,158 Q${curveX},310 150,480"
+                  fill="none" stroke="#326B24" stroke-width="17" stroke-linecap="round"/>
+            <path d="M148,164 Q${curveX - 2},310 148,474"
+                  fill="none" stroke="#6FA849" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+
             <!-- 3. Đầu hoa (Head) nghiêng tự nhiên theo góc cfg.tilt -->
             <g class="flower-head" id="head_${idIndex}" transform="rotate(${headTilt} 150 150)">
               <!-- Lớp đài hoa xanh ở đáy -->
@@ -1922,7 +1785,7 @@
                 <!-- Lớp cánh sau sắc cam đậm -->
                 <g class="petals-back">${backPetals}</g>
                 <!-- Lớp cánh trước sáng rực đổ bóng 3D lên lớp sau -->
-                <g class="petals-front" ${petalFilter}>${frontPetals}</g>
+                <g class="petals-front">${frontPetals}</g>
                 <!-- Lớp cánh trong ôm sát nhụy -->
                 <g class="petals-inner">${innerPetals}</g>
               </g>
@@ -2006,96 +1869,49 @@
           { left: '99%', bottom: '-20px', scale: 1.22, zIndex: 15, height: 500, delay: 1220, tilt: -8,  sway: 1 }
         ];
 
-        const renderToken = ++this.renderToken;
-        if (this.renderFrame !== null) {
-          cancelAnimationFrame(this.renderFrame);
-          this.renderFrame = null;
-        }
+        // Hiển thị khoảng 2/3 số hoa để lấp khoảng trống mà vẫn hạn chế tải SVG.
+        const lightweightConfigs = flowerConfigs.filter((cfg, idx) => idx % 3 !== 1);
+        lightweightConfigs.forEach((cfg, idx) => {
+          const flowerEl = document.createElement('div');
+          // Chon kieu lac rieng cho tung cay, khong de ca vuon lac cung nhip.
+          const swayType = Math.floor(Math.random() * 3) + 1;
+          flowerEl.className = `sunflower-entity bud swaying-${swayType}`;
+          flowerEl.style.animationDuration = `${5.0 + Math.random() * 3.2}s`;
+          flowerEl.style.animationDelay = `${-Math.random() * 7}s`;
+          flowerEl.style.animationDirection = Math.random() < 0.5 ? 'alternate' : 'alternate-reverse';
+          flowerEl.id = `flower-${idx}`;
+          flowerEl.style.left = cfg.left;
+          flowerEl.style.bottom = cfg.bottom || '-10px';
+          flowerEl.style.zIndex = cfg.zIndex;
+          flowerEl.style.width = `${cfg.height * 0.62}px`;
+          flowerEl.style.height = `${cfg.height}px`;
+          if (cfg.filter) flowerEl.style.filter = cfg.filter;
+          // Bat dau chuyen dong ngay tu luc tao phan tu, khong cho animation-delay duong.
 
-        // Xao tron thu tu xuat hien moi lan khoi tao, nhung giu nguyen vi tri va z-index cua hoa.
-        const orderedFlowerConfigs = flowerConfigs.map((config, originalIndex) => ({ config, originalIndex }));
-        for (let i = orderedFlowerConfigs.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [orderedFlowerConfigs[i], orderedFlowerConfigs[j]] = [orderedFlowerConfigs[j], orderedFlowerConfigs[i]];
-        }
+          flowerEl.innerHTML = this.createSunflowerSVG(idx, cfg);
+          this.container.appendChild(flowerEl);
 
-        let index = 0;
-        // Moi khung hinh chi tao mot SVG, tranh dung hinh khi tao nhieu node SVG.
-        const batchSize = 1;
-        // Gian cach khoi dong animation de khong bung canh 42 bong cung luc.
-        const bloomInterval = 90;
-        const processBatch = () => {
-          if (renderToken !== this.renderToken) return;
+          this.flowers.push({
+            el: flowerEl,
+            head: flowerEl.querySelector('.flower-head'),
+            config: cfg
+          });
 
-          const fragment = document.createDocumentFragment();
-          const batchFlowers = [];
-          const batchEnd = Math.min(index + batchSize, orderedFlowerConfigs.length);
-
-          while (index < batchEnd) {
-            const renderPosition = index++;
-            const { config: cfg, originalIndex: idx } = orderedFlowerConfigs[renderPosition];
-            const flowerEl = document.createElement('div');
-            flowerEl.className = 'sunflower-entity bud flower-pending';
-            if (cfg.height <= 200) flowerEl.classList.add('simple');
-            if (cfg.zIndex >= 14) flowerEl.classList.add('foreground');
-            flowerEl.id = `flower-${idx}`;
-            flowerEl.style.left = cfg.left;
-            flowerEl.style.bottom = cfg.bottom || '-10px';
-            flowerEl.style.zIndex = cfg.zIndex;
-            flowerEl.style.width = `${cfg.height * 0.62}px`;
-            flowerEl.style.height = `${cfg.height}px`;
-            if (cfg.filter) flowerEl.style.filter = cfg.filter;
-            // Pha am giup moi hoa bat dau o vi tri khac nhau nhung chuyen dong ngay lap tuc.
-            flowerEl.style.animationDelay = `${(-idx * 0.12).toFixed(2)}s`;
-
-            flowerEl.innerHTML = this.createSunflowerSVG(idx, cfg);
-            fragment.appendChild(flowerEl);
-            batchFlowers.push({ el: flowerEl, config: cfg, index: idx, renderPosition });
-
-            this.flowers.push({
-              el: flowerEl,
-              head: flowerEl.querySelector('.flower-head'),
-              config: cfg
-            });
-
-          }
-
-          this.container.appendChild(fragment);
-
-          // Khoi dong tung hoa lech nhau, giam so animation SVG chay dong thoi.
-          for (const flower of batchFlowers) {
-            window.setTimeout(() => {
-              if (renderToken !== this.renderToken || !flower.el.isConnected) return;
-              const swayType = flower.config.sway || ((flower.index % 3) + 1);
-              flower.el.classList.remove('flower-pending');
-              flower.el.classList.add(`swaying-${swayType}`, 'growing');
-
-              // Than moc tu goc len; dau hoa chi bung sau khi than gan hoan tat.
-              window.setTimeout(() => {
-                if (renderToken !== this.renderToken || !flower.el.isConnected) return;
-                flower.el.classList.remove('growing', 'bud');
-                flower.el.classList.add('bloomed');
-              }, 520);
-            }, flower.renderPosition * bloomInterval);
-          }
-
-          if (index < orderedFlowerConfigs.length) {
-            this.renderFrame = requestAnimationFrame(processBatch);
-          } else {
-            this.renderFrame = null;
-          }
-        };
-
-        this.renderFrame = requestAnimationFrame(processBatch);
+          // Cho cay bat dau dua ngay; chi hen gio hieu ung no hoa, khong hen gio chuyen dong.
+          setTimeout(() => {
+            flowerEl.classList.remove('bud');
+            flowerEl.classList.add('bloomed');
+          }, cfg.delay);
+        });
       }
 
       bindEvents() {
-        // Hiệu ứng tương tác hoa (click, hover tracking) đã được loại bỏ để tối ưu hiệu suất
-        // Hoa chỉ giữ animation đung đưa CSS thuần, không có JS interaction
+        // Đã tắt hiệu ứng rung, bắn cánh hoa và nghiêng đầu hoa theo con trỏ.
       }
 
       reset() {
         this.renderGarden();
+        this.bindEvents();
       }
     }
 
@@ -2134,7 +1950,7 @@
         const duration = 4800; // 4.8 giây toàn bộ hành trình
         let letterDropped = false;
 
-        // Âm thanh chim hót đã được loại bỏ
+        // Hót chào mừng khi chim bắt đầu xuất hiện
 
         const animateFlight = (now) => {
           const elapsed = now - startTime;
@@ -2246,22 +2062,105 @@
         this.reopenBtn = document.getElementById('btn-reopen-card');
 
         this.replayBtn = document.getElementById('btn-replay-all');
-        this.openEditBtn = document.getElementById('btn-open-edit');
-        this.burstBtn = document.getElementById('btn-burst-hearts');
-
-        // Modal sửa lời chúc
-        this.editModal = document.getElementById('edit-modal');
-        this.inputRecipient = document.getElementById('input-recipient');
-        this.inputSender = document.getElementById('input-sender');
-        this.inputMsg = document.getElementById('input-message');
-        this.saveEditBtn = document.getElementById('btn-save-edit');
-        this.cancelEditBtn = document.getElementById('btn-cancel-edit');
 
         this.typewriterTimer = null;
         this.isCardOpened = false;
+        this.lastLetterIndex = -1;
+        this.availableLetters = 0;
+        this.pendingLetterIndex = null;
+        this.birdShow = null;
+        this.drawLabel = document.getElementById('draw-letter-label');
+        this.chooseLetterBtn = document.getElementById('btn-choose-letter');
+        this.letterPicker = document.getElementById('letter-picker');
+        this.letterPickerList = document.getElementById('letter-picker-list');
+        this.closePickerBtn = document.getElementById('btn-close-picker');
 
+        this.renderLetterChoices();
         this.updateContent();
         this.bindEvents();
+      }
+
+      drawRandomLetter() {
+        const letters = CONFIG.letters;
+        let index = Math.floor(Math.random() * letters.length);
+        if (letters.length > 1 && index === this.lastLetterIndex) {
+          index = (index + 1 + Math.floor(Math.random() * (letters.length - 1))) % letters.length;
+        }
+        this.lastLetterIndex = index;
+        this.selectLetter(index);
+      }
+
+      selectLetter(index) {
+        const letter = CONFIG.letters[index];
+        if (!letter || this.pendingLetterIndex !== null) return;
+
+        // Chỉ ghi nhận lựa chọn trước; chưa để lộ nội dung khi chim chưa giao thư.
+        this.pendingLetterIndex = index;
+        this.closeLetterPicker();
+        if (this.birdShow) {
+          if (!this.birdShow.isFlying) this.birdShow.start();
+        } else {
+          this.deliverPendingLetter();
+        }
+      }
+
+      deliverPendingLetter() {
+        if (this.pendingLetterIndex === null) return;
+        const letter = CONFIG.letters[this.pendingLetterIndex];
+        this.pendingLetterIndex = null;
+        if (!letter) return;
+
+        CONFIG.message = letter.message;
+        CONFIG.sender = letter.sender;
+        this.isCardOpened = false;
+        this.cover.classList.remove('opened');
+        this.textContainer.textContent = '';
+        if (this.typewriterTimer) clearInterval(this.typewriterTimer);
+        this.updateContent();
+        this.openModal();
+        setTimeout(() => this.openCover(), 400);
+      }
+
+      renderLetterChoices() {
+        if (!this.letterPickerList) return;
+        this.letterPickerList.innerHTML = '';
+        CONFIG.letters.forEach((letter, index) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'letter-choice';
+          button.setAttribute('aria-label', `Mở phong thư bí mật số ${index + 1}`);
+          const envelope = document.createElement('span');
+          envelope.className = 'sealed-envelope';
+          envelope.setAttribute('aria-hidden', 'true');
+          envelope.textContent = '💌';
+          const title = document.createElement('strong');
+          title.textContent = `Phong thư ${String(index + 1).padStart(2, '0')}`;
+          const hint = document.createElement('span');
+          hint.textContent = 'Chạm để khám phá';
+          button.append(envelope, title, hint);
+          button.addEventListener('click', () => this.selectLetter(index));
+          this.letterPickerList.appendChild(button);
+        });
+        const chooseLabel = document.querySelector('#btn-choose-letter span:last-child');
+        if (chooseLabel) chooseLabel.textContent = 'Chọn một lá thư';
+      }
+
+      openLetterPicker() {
+        this.letterPicker.classList.add('active');
+      }
+
+      closeLetterPicker() {
+        this.letterPicker.classList.remove('active');
+      }
+
+      updateDrawLabel() {
+        // Không tiết lộ tổng số thư trên giao diện chính; giữ cảm giác bí mật như túi mù.
+        if (this.drawLabel) this.drawLabel.textContent = 'Rút ngẫu nhiên một lá thư';
+      }
+
+      receiveLetter() {
+        this.availableLetters += 1;
+        this.updateDrawLabel();
       }
 
       updateContent() {
@@ -2283,20 +2182,6 @@
             this.textContainer.textContent += fullText[charIndex];
             charIndex++;
 
-            // Mỗi 15 ký tự bắn vài hạt lấp lánh nhẹ
-            if (charIndex % 15 === 0) {
-              const rect = this.textContainer.getBoundingClientRect();
-              this.fx.touchSparks.push({
-                x: rect.right,
-                y: rect.bottom - 8,
-                vx: (Math.random() - 0.5) * 1.5,
-                vy: -1,
-                life: 0.9,
-                decay: 0.04,
-                size: 3,
-                color: '#FFD166'
-              });
-            }
           } else {
             clearInterval(this.typewriterTimer);
             // Ẩn con trỏ sau khi gõ xong 3 giây
@@ -2323,11 +2208,6 @@
         this.isCardOpened = true;
         this.cover.classList.add('opened');
 
-        // Bắn tung hoa và hạt sáng ăn mừng - Đã giảm số lượng
-        const cx = window.innerWidth / 2;
-        const cy = window.innerHeight * 0.45;
-        this.fx.burstCelebration(cx, cy, 18);
-
         // Bắt đầu gõ lời chúc sau khi bìa lật mở 0.5s
         setTimeout(() => {
           this.startTypewriter();
@@ -2339,50 +2219,20 @@
         this.cover.addEventListener('click', () => this.openCover());
 
         // Nút mở thiệp nhanh
-        this.quickOpenBtn.addEventListener('click', () => {
-          this.openModal();
-          setTimeout(() => this.openCover(), 400);
+        this.quickOpenBtn.addEventListener('click', () => this.drawRandomLetter());
+        this.chooseLetterBtn.addEventListener('click', () => this.openLetterPicker());
+        this.closePickerBtn.addEventListener('click', () => this.closeLetterPicker());
+        this.letterPicker.addEventListener('click', (event) => {
+          if (event.target === this.letterPicker) this.closeLetterPicker();
         });
 
         // Nút đóng thiệp
         this.closeCardBtn.addEventListener('click', () => this.closeModal());
-        this.reopenBtn.addEventListener('click', () => {
-          this.openModal();
-          if (!this.isCardOpened) this.openCover();
-        });
+        this.reopenBtn.addEventListener('click', () => this.drawRandomLetter());
 
-        // Nút thả hoa và tim (không có âm thanh)
-        this.burstBtn.addEventListener('click', (e) => {
-          const rect = this.burstBtn.getBoundingClientRect();
-          this.fx.burstOnCard(rect.left + rect.width / 2, rect.top, 18);
-        });
 
-        // Nút mở form sửa lời chúc
-        this.openEditBtn.addEventListener('click', () => {
-          this.inputRecipient.value = CONFIG.recipient;
-          this.inputSender.value = CONFIG.sender;
-          this.inputMsg.value = CONFIG.message;
-          this.editModal.classList.add('active');
-        });
 
-        // Lưu sửa đổi
-        this.saveEditBtn.addEventListener('click', () => {
-          const newRec = this.inputRecipient.value.trim();
-          const newSen = this.inputSender.value.trim();
-          const newMsg = this.inputMsg.value.trim();
 
-          if (newRec) CONFIG.recipient = newRec;
-          if (newSen) CONFIG.sender = newSen;
-          if (newMsg) CONFIG.message = newMsg;
-
-          this.updateContent();
-          this.editModal.classList.remove('active');
-          this.startTypewriter();
-        });
-
-        this.cancelEditBtn.addEventListener('click', () => {
-          this.editModal.classList.remove('active');
-        });
       }
 
       reset() {
@@ -2409,28 +2259,37 @@
 
       // 4. Khởi tạo hoạt cảnh chú chim đưa thiệp
       const birdShow = new BirdDeliveryShow(() => {
-        // Khi thiệp rơi chạm đất, mở bảng thiệp lên
-        setTimeout(() => {
-          cardApp.openModal();
-        }, 300);
+        // Chỉ tiết lộ lá thư sau khi hoạt cảnh chim thả thư và phong bì hạ cánh hoàn tất.
+        cardApp.receiveLetter();
+        cardApp.deliverPendingLetter();
       });
+      cardApp.birdShow = birdShow;
 
-      // 5. Tự động cho chim bay vào sau khi hoa nở xong
-      let autoShowTimer = setTimeout(() => {
-        birdShow.start();
-      }, CONFIG.autoBirdDelay);
+      // Tạo một đàn chim nhỏ mang thư bay ngang bầu trời, lệch nhịp để giảm cảm giác đồng loạt.
+      const mainBird = document.getElementById('messenger-bird');
+      for (let i = 0; i < 3; i++) {
+        const flockBird = mainBird.cloneNode(true);
+        flockBird.removeAttribute('id');
+        flockBird.classList.add('messenger-bird-flock');
+        flockBird.setAttribute('aria-hidden', 'true');
+        flockBird.style.top = `${12 + i * 11}%`;
+        flockBird.style.animationDelay = `${-i * 4.2 - 1.5}s`;
+        flockBird.style.opacity = '1';
+        flockBird.querySelectorAll('[id]').forEach(node => node.removeAttribute('id'));
+        document.querySelector('main').appendChild(flockBird);
+      }
 
-      // 6. Nút "Chúc lại lần nữa" phát lại toàn bộ hoạt cảnh từ đầu
+      // 5. Không tự giao thư khi vừa mở trang.
+      // Chim đưa thư chính chỉ xuất hiện khi người xem nhấn "Rút ngẫu nhiên"
+      // hoặc chọn một phong thư trong danh sách bí mật.
+
+      // 6. Nút phát lại chỉ đặt lại cảnh; không tự gọi chim giao thư.
       cardApp.replayBtn.addEventListener('click', () => {
-        clearTimeout(autoShowTimer);
         cardApp.reset();
+        cardApp.availableLetters = 0;
+        cardApp.updateDrawLabel();
         birdShow.reset();
         garden.reset();
-
-        // Đợi hoa nở rồi cho chim bay vào lại
-        autoShowTimer = setTimeout(() => {
-          birdShow.start();
-        }, CONFIG.autoBirdDelay);
       });
     });
   </script>
