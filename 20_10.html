@@ -1,0 +1,2440 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Chúc Mừng Ngày Phụ Nữ Việt Nam 20/10 🌻</title>
+  <meta name="description" content="Trang web tương tác chúc mừng Ngày Phụ nữ Việt Nam 20/10 với vườn hoa hướng dương, chú chim đưa thiệp và những lời chúc ấm áp.">
+
+  <!-- Google Fonts: Dancing Script (Thư pháp bay bổng), Be Vietnam Pro (Hiện đại, dấu tiếng Việt chuẩn), Playfair Display (Sang trọng) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. THIẾT LẬP CƠ BẢN VÀ BIẾN MÀU SẮC (CSS VARIABLES)
+       ========================================================================== */
+    :root {
+      /* Bảng màu chủ đạo: Vàng - Cam ấm áp */
+      --gold-primary: #FFB703;
+      --gold-light: #FFD166;
+      --gold-cream: #FFF4D6;
+      --gold-pale: #FFF9E6;
+      --amber-deep: #FB8500;
+      --brown-center: #3E2108;
+      --brown-dark: #2A1504;
+
+      /* Bầu trời & Biển */
+      --sky-top: #CDEBFA;
+      --sky-mid: #BDE4EC;
+      --sky-horizon: #FFF1D0;
+      --sea-deep: #2A6F97;
+      --sea-mid: #468FAF;
+      --sea-light: #89C2D9;
+
+      /* Cỏ & Lá */
+      --grass-dark: #2D5A27;
+      --grass-mid: #44863A;
+      --grass-light: #70A956;
+      --leaf-green: #3F7A2D;
+
+      /* Giấy thiệp cao cấp */
+      --card-bg: #FCF9F2;
+      --card-border: #E8D3A2;
+      --card-shadow: rgba(60, 30, 10, 0.22);
+      --card-text: #3D291A;
+
+      /* Phông chữ */
+      --font-hand: 'Dancing Script', cursive;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: var(--font-sans);
+      background-color: var(--sky-horizon);
+      color: var(--card-text);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Khung nhìn chính */
+    #stage-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      perspective: 1400px;
+    }
+
+    /* ==========================================================================
+       2. BỐI CẢNH NGHỆ THUẬT: BẦU TRỜI, MẶT TRỜI, TIA NẮNG & BIỂN
+       ========================================================================== */
+    .sky-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg,
+        var(--sky-top) 0%,
+        var(--sky-mid) 38%,
+        #E2EFF5 58%,
+        var(--sky-horizon) 75%,
+        #FFE5B4 85%
+      );
+      z-index: 1;
+    }
+
+    /* Mặt trời buổi sáng dịu êm */
+    .morning-sun {
+      position: absolute;
+      top: 14%;
+      right: 18%;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        #FFFDE8 20%,
+        rgba(255, 235, 150, 0.9) 45%,
+        rgba(255, 183, 3, 0.45) 70%,
+        rgba(255, 183, 3, 0) 95%
+      );
+      filter: drop-shadow(0 0 45px rgba(255, 215, 0, 0.65));
+      animation: sunPulse 6s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    @keyframes sunPulse {
+      0% { transform: scale(0.96); filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.5)); }
+      100% { transform: scale(1.06); filter: drop-shadow(0 0 65px rgba(255, 200, 0, 0.85)); }
+    }
+
+    /* Tia nắng (God Rays) mềm mại */
+    .god-rays {
+      position: absolute;
+      top: -10%;
+      right: 5%;
+      width: 120vw;
+      height: 120vh;
+      background: repeating-conic-gradient(
+        from 135deg at 75% 20%,
+        rgba(255, 255, 230, 0.08) 0deg 8deg,
+        rgba(255, 255, 255, 0) 8deg 24deg,
+        rgba(255, 240, 180, 0.06) 24deg 32deg,
+        rgba(255, 255, 255, 0) 32deg 48deg
+      );
+      pointer-events: none;
+      z-index: 3;
+      mix-blend-mode: screen;
+      opacity: 0.85;
+      animation: raysBreathe 9s ease-in-out infinite alternate;
+    }
+
+    @keyframes raysBreathe {
+      0% { opacity: 0.65; transform: rotate(0deg) scale(0.99); }
+      100% { opacity: 0.95; transform: rotate(1.5deg) scale(1.02); }
+    }
+
+    /* Đám mây trôi lững lờ */
+    .clouds-layer {
+      position: absolute;
+      top: 5%;
+      left: 0;
+      width: 100%;
+      height: 40%;
+      pointer-events: none;
+      z-index: 4;
+      overflow: hidden;
+    }
+
+    .cloud {
+      position: absolute;
+      fill: rgba(255, 255, 255, 0.72);
+      filter: drop-shadow(0 6px 12px rgba(180, 210, 230, 0.4));
+      animation: cloudDrift linear infinite;
+    }
+
+    .cloud-1 {
+      top: 15%;
+      width: 240px;
+      animation-duration: 90s;
+      animation-delay: -10s;
+      opacity: 0.8;
+    }
+    .cloud-2 {
+      top: 40%;
+      width: 180px;
+      animation-duration: 120s;
+      animation-delay: -55s;
+      opacity: 0.65;
+    }
+    .cloud-3 {
+      top: 5%;
+      width: 320px;
+      animation-duration: 150s;
+      animation-delay: -80s;
+      opacity: 0.55;
+    }
+
+    @keyframes cloudDrift {
+      0% { transform: translateX(-350px); }
+      100% { transform: translateX(calc(100vw + 350px)); }
+    }
+
+    /* Biển lấp lánh ở chân trời */
+    .sea-layer {
+      position: absolute;
+      bottom: 22%;
+      left: 0;
+      width: 100%;
+      height: 20%;
+      background: linear-gradient(180deg,
+        rgba(137, 194, 217, 0.75) 0%,
+        rgba(70, 143, 175, 0.85) 45%,
+        rgba(42, 111, 151, 0.95) 100%
+      );
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    /* Sóng biển và vệt sáng mặt trời */
+    .sea-waves {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.35) 0px,
+        rgba(255, 255, 255, 0.1) 2px,
+        transparent 4px,
+        transparent 16px
+      );
+      animation: wavesGlimmer 4s ease-in-out infinite alternate;
+    }
+
+    .sun-reflection {
+      position: absolute;
+      top: 0;
+      right: 17%;
+      width: 150px;
+      height: 100%;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 240, 180, 0.45) 40%,
+        rgba(255, 255, 220, 0.8) 50%,
+        rgba(255, 240, 180, 0.45) 60%,
+        transparent 100%
+      );
+      filter: blur(4px);
+      mix-blend-mode: overlay;
+      animation: reflectionSway 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes wavesGlimmer {
+      0% { transform: translateY(0) scaleY(1); opacity: 0.6; }
+      100% { transform: translateY(3px) scaleY(1.2); opacity: 0.95; }
+    }
+
+    @keyframes reflectionSway {
+      0% { transform: scaleX(0.85) skewX(-2deg); }
+      100% { transform: scaleX(1.15) skewX(2deg); }
+    }
+
+    /* Bờ cỏ/mô đồi tiền cảnh */
+    .hills-layer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 28%;
+      z-index: 6;
+      pointer-events: none;
+    }
+
+    /* Canvas hiệu ứng toàn màn hình (Hạt sáng, Bokeh, Cánh hoa, Vệt chạm) */
+    #fx-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    /* Canvas rieng cho hieu ung nut yeu thuong, nam tren lop thiep */
+    #card-burst-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 40;
+    }
+
+    /* ==========================================================================
+       3. VƯỜN HOA HƯỚNG DƯƠNG ĐA TẦNG CHIỀU SÂU (MULTI-LAYER SUNFLOWER FIELD)
+       ========================================================================== */
+    .flower-garden {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 66%;
+      z-index: 8;
+      pointer-events: none; /* Các đóa hoa bên trong sẽ bật pointer-events */
+    }
+
+    .sunflower-entity {
+      position: absolute;
+      transform-origin: bottom center;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: filter 0.35s ease;
+    }
+
+    .sunflower-entity:hover {
+      filter: drop-shadow(0 0 20px rgba(255, 183, 3, 0.95)) brightness(1.08) !important;
+    }
+
+    .sunflower-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      filter: drop-shadow(0 8px 16px rgba(35, 20, 5, 0.22));
+    }
+
+    /* Hoa nhỏ ở hậu cảnh dùng ít hiệu ứng để giảm tải render */
+    .sunflower-entity.simple .sunflower-svg {
+      filter: none;
+    }
+
+    /* Thân mọc từ gốc lên trước khi đầu hoa bung cánh */
+    .flower-stem {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 0;
+    }
+
+    .sunflower-entity.growing .flower-stem {
+      stroke-dashoffset: 1;
+      animation: stemGrowUp 0.52s cubic-bezier(0.22, 0.72, 0.28, 1) forwards;
+    }
+
+    @keyframes stemGrowUp {
+      from { stroke-dashoffset: 1; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    .flower-leaves {
+      opacity: 1;
+      transition: opacity 0.22s ease-out;
+    }
+
+    .sunflower-entity.growing .flower-leaves {
+      opacity: 0;
+      animation: leavesAppear 0.22s ease-out 0.28s forwards;
+    }
+
+    @keyframes leavesAppear {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Đầu hoa chỉ bung sau khi thân đã mọc gần hoàn chỉnh */
+    .flower-head {
+      transform-origin: 150px 150px;
+      transition: transform 1.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Cánh hoa xòe dần theo từng lớp */
+    .petal-ring {
+      transform-origin: 150px 150px;
+      transition: transform 1.5s cubic-bezier(0.2, 1.35, 0.4, 1), opacity 0.85s ease;
+    }
+
+    .sunflower-entity.bud .petal-ring {
+      transform: scale(0.06) rotate(-55deg);
+      opacity: 0.1;
+    }
+
+    .sunflower-entity.bloomed .petal-ring {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+
+    /* Hoa tiền cảnh nở chậm hơn để tạo chiều sâu cho làn sóng nở */
+    .sunflower-entity.foreground .petal-ring {
+      transition-duration: 2.25s, 1.25s;
+    }
+
+    .sunflower-entity.foreground .flower-disk {
+      transition-duration: 2.35s;
+    }
+
+    /* Nhụy hoa xoay nhẹ khi nở */
+    .flower-disk {
+      transform-origin: 150px 150px;
+      transition: transform 1.8s cubic-bezier(0.34, 1.3, 0.64, 1);
+    }
+
+    .sunflower-entity.bud .flower-disk {
+      transform: scale(0.25) rotate(-100deg);
+      opacity: 0.2;
+    }
+
+    .sunflower-entity.bloomed .flower-disk {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+
+    /* Chuyen dong tuan hoan lien tuc, khong dung nhip o hai dau animation */
+    .sunflower-entity.swaying-1 {
+      animation: flowerWind1 4.2s linear infinite;
+    }
+    .sunflower-entity.swaying-2 {
+      animation: flowerWind2 5.5s linear infinite;
+    }
+    .sunflower-entity.swaying-3 {
+      animation: flowerWind3 3.6s linear infinite;
+    }
+
+    /* Cac moc trung gian giup chuyen dong lap vong mem hon, khong dung lai o diem doi chieu */
+    @keyframes flowerWind1 {
+      0%   { transform: rotate(0deg) translateY(0); }
+      12.5% { transform: rotate(1.2deg) translateY(-0.8px); }
+      25%  { transform: rotate(2deg) translateY(-2px); }
+      37.5% { transform: rotate(1.2deg) translateY(-2.8px); }
+      50%  { transform: rotate(0deg) translateY(-3px); }
+      62.5% { transform: rotate(-1.4deg) translateY(-2.2px); }
+      75%  { transform: rotate(-2.2deg) translateY(-1px); }
+      87.5% { transform: rotate(-1.2deg) translateY(-0.3px); }
+      100% { transform: rotate(0deg) translateY(0); }
+    }
+
+    @keyframes flowerWind2 {
+      0%   { transform: rotate(0deg) translateY(0); }
+      12.5% { transform: rotate(-1.1deg) translateY(0.5px); }
+      25%  { transform: rotate(-2deg) translateY(1.5px); }
+      37.5% { transform: rotate(-1.2deg) translateY(2.4px); }
+      50%  { transform: rotate(0.2deg) translateY(2.8px); }
+      62.5% { transform: rotate(1.5deg) translateY(2px); }
+      75%  { transform: rotate(2.3deg) translateY(1px); }
+      87.5% { transform: rotate(1.2deg) translateY(0.3px); }
+      100% { transform: rotate(0deg) translateY(0); }
+    }
+
+    @keyframes flowerWind3 {
+      0%   { transform: rotate(0deg) translateY(0); }
+      12.5% { transform: rotate(0.9deg) translateY(-0.5px); }
+      25%  { transform: rotate(1.7deg) translateY(-1.4px); }
+      37.5% { transform: rotate(1deg) translateY(-2px); }
+      50%  { transform: rotate(-0.2deg) translateY(-2.2px); }
+      62.5% { transform: rotate(-1.3deg) translateY(-1.6px); }
+      75%  { transform: rotate(-1.9deg) translateY(-0.8px); }
+      87.5% { transform: rotate(-1deg) translateY(-0.2px); }
+      100% { transform: rotate(0deg) translateY(0); }
+    }
+
+    /* Rung rinh khi được click */
+    .sunflower-entity.jiggle {
+      animation: flowerJiggle 0.65s cubic-bezier(0.36, 0.07, 0.19, 0.97) both !important;
+    }
+
+    @keyframes flowerJiggle {
+      10%, 90% { transform: rotate(-7deg) scale(1.06); }
+      20%, 80% { transform: rotate(8deg) scale(1.1); }
+      30%, 50%, 70% { transform: rotate(-9deg) scale(1.12); }
+      40%, 60% { transform: rotate(9deg) scale(1.12); }
+      100% { transform: rotate(0) scale(1); }
+    }
+
+    /* ==========================================================================
+       4. CHÚ CHIM ĐƯA THIỆP (SVG ANIMATED BIRD)
+       ========================================================================== */
+    #messenger-bird {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 90px;
+      height: 90px;
+      z-index: 20;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate3d(-200px, -200px, 0);
+      will-change: transform, opacity;
+      filter: drop-shadow(0 8px 14px rgba(40, 30, 20, 0.25));
+    }
+
+    /* Đôi cánh vỗ mềm mại */
+    .bird-wing-top {
+      transform-origin: 38px 45px;
+      animation: flapWingTop 0.22s ease-in-out infinite alternate;
+    }
+
+    .bird-wing-bottom {
+      transform-origin: 40px 48px;
+      animation: flapWingBottom 0.22s ease-in-out infinite alternate;
+    }
+
+    @keyframes flapWingTop {
+      0% { transform: rotate(-38deg) scaleY(0.75); }
+      100% { transform: rotate(34deg) scaleY(1.05); }
+    }
+
+    @keyframes flapWingBottom {
+      0% { transform: rotate(26deg) scaleY(0.85); }
+      100% { transform: rotate(-24deg) scaleY(0.95); }
+    }
+
+    /* Bức thư ngậm ở mỏ chim */
+    .bird-letter-beak {
+      transform-origin: 75px 42px;
+      animation: beakLetterDangle 0.5s ease-in-out infinite alternate;
+      transition: opacity 0.2s ease;
+    }
+
+    @keyframes beakLetterDangle {
+      0% { transform: rotate(-8deg); }
+      100% { transform: rotate(12deg); }
+    }
+
+    /* ==========================================================================
+       5. PHONG THƯ RƠI TỰ NHIÊN (FALLING ENVELOPE)
+       ========================================================================== */
+    #falling-envelope {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 70px;
+      height: 50px;
+      z-index: 25;
+      pointer-events: none;
+      opacity: 0;
+      cursor: pointer;
+      filter: drop-shadow(0 12px 24px rgba(130, 80, 20, 0.35));
+      will-change: transform, opacity;
+    }
+
+    /* ==========================================================================
+       6. TẤM THIỆP 3D & LỜI CHÚC (3D POPUP CARD & TYPEWRITER)
+       ========================================================================== */
+    .card-modal-backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(30, 15, 5, 0.32) 0%, rgba(10, 5, 0, 0.6) 100%);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 30;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .card-modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Hộp thiệp 3D */
+    .greeting-card-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      max-height: 88vh;
+      transform-style: preserve-3d;
+      perspective: 1600px;
+      transform: scale(0.85) translateY(40px);
+      opacity: 0;
+      transition: transform 0.9s cubic-bezier(0.34, 1.35, 0.64, 1), opacity 0.8s ease;
+    }
+
+    .card-modal-backdrop.active .greeting-card-wrapper {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    /* Cấu trúc bìa & ruột thiệp */
+    .card-container {
+      position: relative;
+      width: 100%;
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow:
+        0 24px 60px rgba(45, 20, 5, 0.35),
+        0 4px 18px rgba(255, 200, 100, 0.25) inset,
+        0 0 0 1px rgba(230, 195, 130, 0.6);
+      overflow: hidden;
+      border: 2px solid #F3E3BC;
+    }
+
+    /* Họa tiết hoa văn viền thiệp phong cách vẽ tay */
+    .card-border-decor {
+      position: absolute;
+      inset: 8px;
+      border: 1.5px dashed rgba(212, 163, 89, 0.65);
+      border-radius: 14px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Góc trang trí hoa hướng dương */
+    .corner-sunflower {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      pointer-events: none;
+      z-index: 3;
+      opacity: 0.85;
+    }
+    .corner-tl { top: 6px; left: 6px; }
+    .corner-tr { top: 6px; right: 6px; transform: scaleX(-1); }
+    .corner-bl { bottom: 6px; left: 6px; transform: scaleY(-1); }
+    .corner-br { bottom: 6px; right: 6px; transform: scale(-1); }
+
+    /* Nội dung ruột thiệp */
+    .card-inner-content {
+      position: relative;
+      padding: 38px 28px 28px;
+      text-align: center;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Dòng tiêu đề người nhận */
+    .card-salutation {
+      font-family: var(--font-hand);
+      font-size: 2.2rem;
+      color: #9E2A2B;
+      margin-bottom: 6px;
+      line-height: 1.25;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    /* Phụ đề ngày lễ */
+    .card-occasion-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #FFE8A3 0%, #FFD166 100%);
+      color: #633202;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 3px 8px rgba(251, 133, 0, 0.22);
+      margin-bottom: 20px;
+    }
+
+    /* Khung văn bản lời chúc (Hiệu ứng gõ chữ Typewriter) */
+    .card-message-box {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: #382414;
+      min-height: 125px;
+      margin-bottom: 22px;
+      text-align: justify;
+      text-align-last: center;
+      position: relative;
+      width: 100%;
+      word-break: break-word;
+    }
+
+    .typewriter-cursor {
+      display: inline-block;
+      width: 2.5px;
+      height: 1.2em;
+      background-color: var(--amber-deep);
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      animation: blinkCursor 0.75s infinite;
+    }
+
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Chữ ký người gửi */
+    .card-signature-box {
+      width: 100%;
+      text-align: right;
+      padding-right: 15px;
+      margin-bottom: 24px;
+    }
+
+    .card-signature-intro {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: #7A583A;
+      margin-bottom: 2px;
+    }
+
+    .card-signature-name {
+      font-family: var(--font-hand);
+      font-size: 1.85rem;
+      color: #780000;
+      font-weight: 700;
+    }
+
+    /* Thanh nút thao tác ở đáy thiệp */
+    .card-action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding-top: 14px;
+      border-top: 1px solid rgba(212, 163, 89, 0.35);
+    }
+
+    .card-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 9px 18px;
+      border-radius: 30px;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(60, 30, 10, 0.12);
+    }
+
+    .card-btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-replay {
+      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--amber-deep) 100%);
+      color: #FFFFFF;
+    }
+    .btn-replay:hover {
+      box-shadow: 0 6px 18px rgba(251, 133, 0, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .btn-customize {
+      background: #FFFFFF;
+      color: #5C3A1E;
+      border: 1px solid #D6B88D;
+    }
+    .btn-customize:hover {
+      background: #FFF9EE;
+      transform: translateY(-2px);
+    }
+
+    .btn-close-modal {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(240, 225, 200, 0.65);
+      border: 1px solid rgba(200, 165, 120, 0.5);
+      color: #5A3515;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.2s ease;
+    }
+    .btn-close-modal:hover {
+      background: #FFD166;
+      color: #000;
+      transform: rotate(90deg);
+    }
+
+    /* ==========================================================================
+       7. BÌA THIỆP GẤP (CARD COVER FOR OPEN INTERACTION)
+       ========================================================================== */
+    .card-sealed-cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #FFFDF8 0%, #F5ECDA 100%);
+      border-radius: 20px;
+      z-index: 8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 1.1s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.8s ease, visibility 1.1s;
+      transform-origin: top center;
+      box-shadow: 0 10px 30px rgba(70, 35, 10, 0.2);
+    }
+
+    .card-sealed-cover.opened {
+      transform: rotateX(105deg) translateY(-20px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .wax-seal {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #C92A2A 0%, #861818 70%, #520D0D 100%);
+      box-shadow:
+        0 8px 20px rgba(134, 24, 24, 0.45),
+        0 2px 6px rgba(255, 150, 150, 0.4) inset;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFE699;
+      font-size: 1.8rem;
+      margin-bottom: 18px;
+      border: 3px solid #821515;
+      animation: waxPulse 2.4s infinite ease-in-out;
+    }
+
+    @keyframes waxPulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 4px 10px rgba(134, 24, 24, 0.4)); }
+      50% { transform: scale(1.06); filter: drop-shadow(0 8px 18px rgba(200, 30, 30, 0.6)); }
+    }
+
+    .cover-title {
+      font-family: var(--font-hand);
+      font-size: 2.2rem;
+      color: #780000;
+      margin-bottom: 8px;
+    }
+
+    .cover-tap-hint {
+      font-size: 0.92rem;
+      color: #7A583A;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 235, 180, 0.6);
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px dashed #D4A359;
+      margin-top: 10px;
+    }
+
+    /* ==========================================================================
+       8. GIAO DIỆN ĐIỀU KHIỂN & THANH CÔNG CỤ NỔI (FLOATING CONTROLS)
+       ========================================================================== */
+    .top-controls {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 28;
+    }
+
+    .floating-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(230, 195, 130, 0.8);
+      box-shadow: 0 6px 18px rgba(60, 30, 10, 0.15);
+      color: #5A3515;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .floating-btn:hover {
+      transform: scale(1.12);
+      background: #FFFFFF;
+      box-shadow: 0 8px 24px rgba(255, 183, 3, 0.4);
+      color: var(--amber-deep);
+    }
+
+    .floating-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Nút trigger mở thiệp sớm nếu người dùng không muốn đợi */
+    .open-gift-cta {
+      position: absolute;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, rgba(255, 245, 220, 0.95) 0%, rgba(255, 225, 150, 0.95) 100%);
+      backdrop-filter: blur(10px);
+      border: 1.5px solid #E5C378;
+      border-radius: 35px;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #633202;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 10px 26px rgba(100, 60, 10, 0.22);
+      z-index: 18;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: ctaFloat 3s ease-in-out infinite alternate;
+    }
+
+    .open-gift-cta:hover {
+      transform: translateX(-50%) translateY(-4px) scale(1.05);
+      background: linear-gradient(135deg, #FFF9EB 0%, #FFD166 100%);
+      box-shadow: 0 14px 32px rgba(251, 133, 0, 0.35);
+    }
+
+    @keyframes ctaFloat {
+      0% { transform: translateX(-50%) translateY(0); }
+      100% { transform: translateX(-50%) translateY(-6px); }
+    }
+
+    /* ==========================================================================
+       9. MODAL TÙY CHỈNH NỘI DUNG (CUSTOMIZE MODAL)
+       ========================================================================== */
+    .edit-modal-backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(20, 10, 5, 0.65);
+      backdrop-filter: blur(6px);
+      z-index: 45;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .edit-modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .edit-modal-box {
+      width: 100%;
+      max-width: 460px;
+      background: #FFFDF8;
+      border-radius: 18px;
+      padding: 26px 22px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      border: 2px solid #E5C378;
+    }
+
+    .edit-modal-title {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      color: #633202;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #6A4423;
+      margin-bottom: 5px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1.5px solid #DAC29C;
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      background: #FFFFFF;
+      color: #3D291A;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--amber-deep);
+      box-shadow: 0 0 0 3px rgba(251, 133, 0, 0.18);
+    }
+
+    textarea.form-control {
+      min-height: 95px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .edit-modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .edit-modal-actions button {
+      flex: 1;
+      padding: 10px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-save-edit {
+      background: linear-gradient(135deg, var(--gold-primary), var(--amber-deep));
+      color: #FFF;
+    }
+    .btn-cancel-edit {
+      background: #EFE8DA;
+      color: #55351E;
+    }
+
+    /* ==========================================================================
+       10. RESPONSIVE DESIGN & TIỆN ÍCH HỖ TRỢ TRUY CẬP
+       ========================================================================== */
+    @media (max-width: 600px) {
+      .card-salutation { font-size: 1.85rem; }
+      .card-message-box { font-size: 0.98rem; line-height: 1.75; min-height: 110px; }
+      .card-inner-content { padding: 30px 18px 20px; }
+      .cover-title { font-size: 1.85rem; }
+      .wax-seal { width: 68px; height: 68px; font-size: 1.5rem; }
+      .open-gift-cta { font-size: 0.88rem; padding: 8px 18px; bottom: 18px; }
+      .morning-sun { width: 100px; height: 100px; right: 10%; top: 10%; }
+      .top-controls { top: 12px; right: 12px; }
+      .floating-btn { width: 42px; height: 42px; font-size: 1.1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KHUNG NHÌN CHÍNH (STAGE) -->
+  <main id="stage-container" role="main" aria-label="Khung cảnh tương tác chúc mừng 20/10">
+
+    <!-- 1. BẦU TRỜI & BỐI CẢNH BIỂN -->
+    <div class="sky-background" aria-hidden="true"></div>
+    <div class="morning-sun" aria-hidden="true"></div>
+    <div class="god-rays" aria-hidden="true"></div>
+
+    <!-- Đám mây trôi -->
+    <div class="clouds-layer" aria-hidden="true">
+      <svg class="cloud cloud-1" viewBox="0 0 100 45">
+        <path d="M10,35 Q15,15 35,20 Q48,5 65,18 Q85,12 90,35 Q92,42 80,42 L15,42 Q8,42 10,35 Z"/>
+      </svg>
+      <svg class="cloud cloud-2" viewBox="0 0 100 45">
+        <path d="M12,38 Q18,20 36,22 Q50,10 68,22 Q86,18 88,38 Q90,42 80,42 L18,42 Q10,42 12,38 Z"/>
+      </svg>
+      <svg class="cloud cloud-3" viewBox="0 0 100 45">
+        <path d="M8,36 Q15,12 40,16 Q55,2 75,16 Q92,10 94,36 Q96,44 82,44 L14,44 Q6,44 8,36 Z"/>
+      </svg>
+    </div>
+
+    <!-- Biển lấp lánh & phản chiếu mặt trời -->
+    <div class="sea-layer" aria-hidden="true">
+      <div class="sea-waves"></div>
+      <div class="sun-reflection"></div>
+    </div>
+
+    <!-- Mô đồi cỏ ven biển -->
+    <svg class="hills-layer" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="hillBackGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#4E8741"/>
+          <stop offset="100%" stop-color="#2D5524"/>
+        </linearGradient>
+        <linearGradient id="hillFrontGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#6DA853"/>
+          <stop offset="100%" stop-color="#3A6C2E"/>
+        </linearGradient>
+      </defs>
+      <!-- Đồi phía sau -->
+      <path d="M0,180 Q320,110 680,160 T1440,140 L1440,320 L0,320 Z" fill="url(#hillBackGrad)"/>
+      <!-- Đồi phía trước -->
+      <path d="M0,230 Q450,160 880,210 T1440,200 L1440,320 L0,320 Z" fill="url(#hillFrontGrad)"/>
+    </svg>
+
+    <!-- Canvas hạt sáng, bokeh, cánh hoa rơi và vệt chạm -->
+    <canvas id="fx-canvas"></canvas>
+
+    <!-- 2. VƯỜN HOA HƯỚNG DƯƠNG NỞ RỘ -->
+    <div class="flower-garden" id="sunflower-garden" aria-label="Vườn hoa hướng dương tươi thắm"></div>
+
+    <!-- 3. CHÚ CHIM ĐƯA THIỆP (SVG BIRD) -->
+    <div id="messenger-bird" aria-hidden="true">
+      <svg viewBox="0 0 110 100" style="overflow: visible;">
+        <defs>
+          <linearGradient id="birdFeatherGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4A90E2"/>
+            <stop offset="60%" stop-color="#2C5282"/>
+            <stop offset="100%" stop-color="#1A365D"/>
+          </linearGradient>
+          <linearGradient id="birdBellyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFF5E5"/>
+            <stop offset="100%" stop-color="#FFD166"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Đuôi chim én -->
+        <path d="M22,54 L5,70 L18,52 L4,42 Z" fill="#1A365D"/>
+
+        <!-- Thân chim -->
+        <path d="M20,54 C32,62 55,62 68,48 C76,40 76,32 68,26 C58,18 36,24 20,54 Z" fill="url(#birdFeatherGrad)"/>
+        <!-- Ức và bụng chim màu vàng ấm -->
+        <path d="M36,56 C48,60 62,56 68,46 C60,45 48,46 36,56 Z" fill="url(#birdBellyGrad)"/>
+
+        <!-- Cánh dưới -->
+        <path class="bird-wing-bottom" d="M38,48 C28,68 18,74 8,82 C18,66 28,54 44,46 Z" fill="#1E3A8A"/>
+
+        <!-- Đầu và mỏ chim -->
+        <circle cx="70" cy="33" r="10" fill="#2C5282"/>
+        <circle cx="73" cy="31" r="2.2" fill="#FFFFFF"/>
+        <circle cx="73.8" cy="31" r="1.2" fill="#000000"/>
+        <!-- Mỏ ngậm thư -->
+        <polygon points="78,32 94,36 78,40" fill="#FFAA00"/>
+
+        <!-- Cánh trên vỗ nhịp nhàng -->
+        <path class="bird-wing-top" d="M42,42 C34,16 22,2 8,-12 C24,2 38,18 52,38 Z" fill="#3B82F6"/>
+
+        <!-- Phong bì nhỏ ngậm ở mỏ chim -->
+        <g class="bird-letter-beak" id="bird-beak-letter">
+          <rect x="84" y="38" width="18" height="13" rx="1.5" fill="#FFFDF5" stroke="#DDAA33" stroke-width="0.8"/>
+          <polygon points="84,38 93,45 102,38" fill="#F4E3B8"/>
+          <!-- Dải ruy băng hồng -->
+          <circle cx="93" cy="45" r="2.5" fill="#E63946"/>
+          <path d="M93,47 L90,54 M93,47 L96,54" stroke="#E63946" stroke-width="1.2" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- 4. PHONG BÌ RƠI TỰ DO (FALLING ENVELOPE) -->
+    <div id="falling-envelope" aria-label="Bức thư đang rơi xuống">
+      <svg viewBox="0 0 70 50" style="width: 100%; height: 100%;">
+        <rect x="2" y="2" width="66" height="46" rx="4" fill="#FFFDF8" stroke="#DDAA33" stroke-width="1.5"/>
+        <path d="M2,2 L35,28 L68,2" fill="none" stroke="#DDAA33" stroke-width="1.2"/>
+        <!-- Con dấu sáp hoa đỏ thắm -->
+        <circle cx="35" cy="27" r="7.5" fill="#C92A2A" stroke="#7A1212" stroke-width="1"/>
+        <path d="M35,23 L36,25 L38,25 L36.5,27 L37,29 L35,27.5 L33,29 L33.5,27 L32,25 L34,25 Z" fill="#FFE5A3"/>
+      </svg>
+    </div>
+
+    <!-- Nút kêu gọi mở thiệp nhanh nếu muốn -->
+    <button id="btn-quick-open" class="open-gift-cta" aria-label="Mở quà chúc mừng ngay">
+      <span style="font-size: 1.25rem;">🎁</span>
+      <span>Mở quà chúc mừng 20/10</span>
+    </button>
+
+    <!-- 5. TẤM THIỆP TƯƠNG TÁC (3D GREETING CARD MODAL) -->
+    <div id="card-modal" class="card-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-salutation">
+      <div class="greeting-card-wrapper">
+        <div class="card-container">
+
+          <!-- Nút đóng nhanh tấm thiệp -->
+          <button id="btn-close-card" class="btn-close-modal" aria-label="Đóng thiệp">✕</button>
+
+          <!-- Bìa thiệp gập niêm phong -->
+          <div id="card-cover" class="card-sealed-cover" role="button" tabindex="0" aria-label="Bìa thiệp, chạm để mở">
+            <div class="wax-seal" aria-hidden="true">🌸</div>
+            <h2 class="cover-title">Gửi Các Bạn Thân Yêu</h2>
+            <p style="font-family: var(--font-serif); font-size: 1rem; color: #5C3A1E; margin-bottom: 8px;">
+              Một món quà nhỏ gửi tới những người bạn tuyệt vời
+            </p>
+            <div class="cover-tap-hint">
+              <span>✨ Chạm nhẹ để mở thiệp</span>
+            </div>
+          </div>
+
+          <!-- Hoa văn viền và góc thiệp -->
+          <div class="card-border-decor" aria-hidden="true"></div>
+
+          <!-- 4 Góc hoa hướng dương viền tinh tế -->
+          <svg class="corner-sunflower corner-tl" viewBox="0 0 60 60" aria-hidden="true">
+            <circle cx="20" cy="20" r="10" fill="#FFB703"/>
+            <circle cx="20" cy="20" r="6" fill="#4A2810"/>
+            <path d="M20,6 L22,12 L20,10 L18,12 Z M6,20 L12,22 L10,20 L12,18 Z M20,34 L22,28 L20,30 L18,28 Z M34,20 L28,22 L30,20 L28,18 Z" fill="#FB8500"/>
+          </svg>
+          <svg class="corner-sunflower corner-tr" viewBox="0 0 60 60" aria-hidden="true">
+            <circle cx="20" cy="20" r="10" fill="#FFB703"/>
+            <circle cx="20" cy="20" r="6" fill="#4A2810"/>
+            <path d="M20,6 L22,12 L20,10 L18,12 Z M6,20 L12,22 L10,20 L12,18 Z M20,34 L22,28 L20,30 L18,28 Z M34,20 L28,22 L30,20 L28,18 Z" fill="#FB8500"/>
+          </svg>
+          <svg class="corner-sunflower corner-bl" viewBox="0 0 60 60" aria-hidden="true">
+            <circle cx="20" cy="20" r="10" fill="#FFB703"/>
+            <circle cx="20" cy="20" r="6" fill="#4A2810"/>
+            <path d="M20,6 L22,12 L20,10 L18,12 Z M6,20 L12,22 L10,20 L12,18 Z M20,34 L22,28 L20,30 L18,28 Z M34,20 L28,22 L30,20 L28,18 Z" fill="#FB8500"/>
+          </svg>
+          <svg class="corner-sunflower corner-br" viewBox="0 0 60 60" aria-hidden="true">
+            <circle cx="20" cy="20" r="10" fill="#FFB703"/>
+            <circle cx="20" cy="20" r="6" fill="#4A2810"/>
+            <path d="M20,6 L22,12 L20,10 L18,12 Z M6,20 L12,22 L10,20 L12,18 Z M20,34 L22,28 L20,30 L18,28 Z M34,20 L28,22 L30,20 L28,18 Z" fill="#FB8500"/>
+          </svg>
+
+          <!-- Nội dung bức thiệp chính -->
+          <div class="card-inner-content">
+            <h1 id="modal-salutation" class="card-salutation">Gửi các bạn thân yêu!</h1>
+            <div class="card-occasion-badge">
+              <span>🌻 20 THÁNG 10 🌻</span>
+            </div>
+
+            <!-- Khung text Typewriter -->
+            <div class="card-message-box">
+              <span id="typed-message-content"></span><span id="type-cursor" class="typewriter-cursor"></span>
+            </div>
+
+            <!-- Chữ ký người gửi -->
+            <div class="card-signature-box">
+              <div class="card-signature-intro">Thương mến gửi từ,</div>
+              <div id="card-signature-text" class="card-signature-name">– Bạn của các bạn ♥</div>
+            </div>
+
+            <!-- Thanh nút chức năng -->
+            <div class="card-action-bar">
+              <button id="btn-replay-all" class="card-btn btn-replay" aria-label="Xem lại hoạt cảnh từ đầu">
+                <span>🔁</span>
+                <span>Chúc lại lần nữa</span>
+              </button>
+              <button id="btn-open-edit" class="card-btn btn-customize" aria-label="Đổi tên và lời chúc">
+                <span>✏️</span>
+                <span>Sửa lời chúc</span>
+              </button>
+              <button id="btn-burst-hearts" class="card-btn btn-customize" aria-label="Thả hoa và tim chúc mừng">
+                <span>🌸</span>
+                <span>Gửi ngàn yêu thương</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. MODAL TÙY CHỈNH THÔNG TIN (CUSTOMIZE MODAL) -->
+    <div id="edit-modal" class="edit-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+      <div class="edit-modal-box">
+        <h2 id="edit-title" class="edit-modal-title">🌻 Tùy chỉnh thông điệp 20/10</h2>
+
+        <div class="form-group">
+          <label for="input-recipient">Người nhận (Ví dụ: Mẹ, Cô Lan, Chị Hà, Vợ yêu, Em yêu...):</label>
+          <input type="text" id="input-recipient" class="form-control" maxlength="40">
+        </div>
+
+        <div class="form-group">
+          <label for="input-sender">Người gửi (Tên của bạn):</label>
+          <input type="text" id="input-sender" class="form-control" maxlength="40">
+        </div>
+
+        <div class="form-group">
+          <label for="input-message">Nội dung lời chúc:</label>
+          <textarea id="input-message" class="form-control" rows="4"></textarea>
+        </div>
+
+        <div class="edit-modal-actions">
+          <button type="button" id="btn-cancel-edit" class="btn-cancel-edit">Hủy</button>
+          <button type="button" id="btn-save-edit" class="btn-save-edit">Lưu & Cập nhật</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. THANH CÔNG CỤ NỔI Ở GÓC TRÊN BÊN PHẢI -->
+    <div class="top-controls">
+      <!-- Nút mở lại thiệp nếu đang đóng -->
+      <button id="btn-reopen-card" class="floating-btn" aria-label="Mở lại thiệp chúc mừng" title="Mở Tấm Thiệp">
+        <span>✉️</span>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ==========================================================================
+       JAVASCRIPT HOÀN CHỈNH: LOGIC, HOẠT CẢNH, CANVAS & WEB AUDIO API
+       ========================================================================== -->
+  <script>
+    /**
+     * BẢNG ĐIỀU KHIỂN & CẤU HÌNH (BẠN CÓ THỂ TÙY CHỈNH TẠI ĐÂY)
+     */
+    const CONFIG = {
+      // 1. Thông tin thiệp chúc mừng
+      recipient: "các bạn thân yêu",       // Tên người nhận
+      sender: "Bạn của các bạn",           // Tên người gửi
+      occasion: "20 THÁNG 10",            // Dịp kỷ niệm
+      message: "Nhân ngày Phụ nữ Việt Nam 20/10, gửi tới các bạn thân yêu những lời chúc tốt đẹp nhất! Chúc các bạn luôn xinh đẹp, tự tin và tỏa sáng rực rỡ như những đóa hướng dương luôn hướng về phía mặt trời. Mong các bạn luôn vui vẻ, hạnh phúc, dồi dào sức khỏe và gặt hái thật nhiều thành công trong cuộc sống. Cảm ơn các bạn đã luôn đồng hành, sẻ chia và mang đến những khoảnh khắc thật đáng quý!",
+
+      // 2. Tốc độ & thời gian hoạt cảnh
+      autoBirdDelay: 3800,                 // Sau bao lâu thì chim bay vào (ms)
+      typewriterSpeed: 38,                 // Tốc độ gõ chữ (ms/ký tự)
+      flowerCount: 42,                     // Số lượng hoa hướng dương
+
+      // 3. Số lượng hạt hiệu ứng (Canvas Particles) - Đã tối ưu giảm để mượt hơn
+      ambientBokehCount: 12,               // Hạt bokeh vàng trôi lơ lửng
+      seaSparkleCount: 15,                 // Đốm sáng lung linh trên mặt biển
+      fallingPetalsMax: 20                 // Cánh hoa rơi khi thiệp mở
+    };
+
+    /* Âm thanh đã được loại bỏ hoàn toàn để tối ưu hiệu suất */
+
+    /* ==========================================================================
+       HỆ THỐNG ĐỒ HỌA CANVAS: BOKEH, BIỂN LẤP LÁNH, CÁNH HOA & VỆT CHẠM
+       ========================================================================== */
+    class VisualEffectsCanvas {
+      constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        this.ctx = this.canvas.getContext('2d');
+        this.width = 0;
+        this.height = 0;
+        this.bokehParticles = [];
+        this.sparkles = [];
+        this.petals = [];
+        this.cardPetals = [];
+        this.cardBurstCanvas = document.createElement('canvas');
+        this.cardBurstCanvas.id = 'card-burst-canvas';
+        this.cardBurstCanvas.setAttribute('aria-hidden', 'true');
+        this.cardBurstCtx = this.cardBurstCanvas.getContext('2d');
+        document.body.appendChild(this.cardBurstCanvas);
+        this.touchSparks = [];
+        this.lastTime = performance.now();
+        this.isTabActive = true;
+
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+
+        // Theo dõi trạng thái tab để tiết kiệm pin/CPU
+        document.addEventListener('visibilitychange', () => {
+          this.isTabActive = !document.hidden;
+          if (this.isTabActive) this.lastTime = performance.now();
+        });
+
+        this.initAtmosphere();
+        this.bindPointer();
+        this.loop();
+      }
+
+      resize() {
+        this.width = this.canvas.width = window.innerWidth;
+        this.height = this.canvas.height = window.innerHeight;
+        this.cardBurstCanvas.width = window.innerWidth;
+        this.cardBurstCanvas.height = window.innerHeight;
+      }
+
+      initAtmosphere() {
+        // Hạt bụi vàng lơ lửng trong nắng (Bokeh) - Đã giảm số lượng
+        this.bokehParticles = [];
+        for (let i = 0; i < CONFIG.ambientBokehCount; i++) {
+          this.bokehParticles.push({
+            x: Math.random() * this.width,
+            y: Math.random() * this.height,
+            radius: Math.random() * 3.5 + 1.2,
+            speedY: -(Math.random() * 0.4 + 0.15),
+            speedX: (Math.random() - 0.5) * 0.3,
+            alpha: Math.random() * 0.55 + 0.2,
+            pulseSpeed: Math.random() * 0.02 + 0.01,
+            pulseOffset: Math.random() * Math.PI * 2
+          });
+        }
+
+        // Đốm sáng phản chiếu trên mặt biển - Đã giảm số lượng
+        this.sparkles = [];
+        const seaTop = this.height * 0.58;
+        const seaBottom = this.height * 0.78;
+        for (let i = 0; i < CONFIG.seaSparkleCount; i++) {
+          this.sparkles.push({
+            x: Math.random() * this.width,
+            y: seaTop + Math.random() * (seaBottom - seaTop),
+            size: Math.random() * 2.8 + 0.8,
+            twinkleSpeed: Math.random() * 0.04 + 0.02,
+            phase: Math.random() * Math.PI * 2
+          });
+        }
+
+        // Hạt bụi phấn hoa - Đã giảm từ 28 xuống 10
+        this.pollenParticles = [];
+        for (let i = 0; i < 10; i++) {
+          this.pollenParticles.push({
+            x: Math.random() * this.width,
+            y: this.height * 0.5 + Math.random() * (this.height * 0.5),
+            vx: (Math.random() - 0.4) * 0.45,
+            vy: -(Math.random() * 0.4 + 0.18),
+            radius: Math.random() * 2.0 + 0.8,
+            alpha: Math.random() * 0.65 + 0.25,
+            phase: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      // Hiệu ứng vệt chạm đã được loại bỏ để tối ưu hiệu suất
+      bindPointer() {
+        // Không còn listener pointermove/touchmove để giảm tải GPU/CPU
+      }
+
+      // Bắn pháo hoa cánh hoa & trái tim - Giới hạn số lượng để mượt hơn
+      burstCelebration(originX, originY, count = 18) {
+        const actualCount = Math.min(count, CONFIG.fallingPetalsMax);
+        for (let i = 0; i < actualCount; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 5 + 2;
+          this.petals.push({
+            x: originX,
+            y: originY,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 2.5,
+            gravity: 0.12,
+            rot: Math.random() * 360,
+            rotSpeed: (Math.random() - 0.5) * 7,
+            scale: Math.random() * 0.8 + 0.6,
+            life: 1.0,
+            decay: Math.random() * 0.015 + 0.01,
+            isHeart: Math.random() > 0.6,
+            color: Math.random() > 0.5 ? '#FFB703' : '#FB8500'
+          });
+        }
+      }
+
+      // Hieu ung rieng tren lop thiep, khong dua canvas hieu ung nen len tren giao dien.
+      burstOnCard(originX, originY, count = 18) {
+        const actualCount = Math.min(count, CONFIG.fallingPetalsMax);
+        for (let i = 0; i < actualCount; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 5 + 2;
+          this.cardPetals.push({
+            x: originX,
+            y: originY,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 2.5,
+            gravity: 0.12,
+            rot: Math.random() * 360,
+            rotSpeed: (Math.random() - 0.5) * 7,
+            scale: Math.random() * 0.8 + 0.6,
+            life: 1,
+            decay: Math.random() * 0.015 + 0.01,
+            isHeart: Math.random() > 0.4,
+            color: Math.random() > 0.5 ? '#FFB703' : '#FB8500'
+          });
+        }
+      }
+
+      updateCardBurst() {
+        const ctx = this.cardBurstCtx;
+        ctx.clearRect(0, 0, this.width, this.height);
+
+        for (let i = this.cardPetals.length - 1; i >= 0; i--) {
+          const pt = this.cardPetals[i];
+          pt.x += pt.vx;
+          pt.y += pt.vy;
+          pt.vy += pt.gravity;
+          pt.vx *= 0.985;
+          pt.rot += pt.rotSpeed;
+          pt.life -= pt.decay;
+
+          if (pt.life <= 0 || pt.y > this.height + 40) {
+            this.cardPetals.splice(i, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.translate(pt.x, pt.y);
+          ctx.rotate((pt.rot * Math.PI) / 180);
+          ctx.scale(pt.scale, pt.scale);
+          ctx.globalAlpha = pt.life;
+
+          if (pt.isHeart) {
+            ctx.fillStyle = '#E63946';
+            ctx.beginPath();
+            ctx.moveTo(0, 3);
+            ctx.bezierCurveTo(0, 0, -4, -4, -8, -4);
+            ctx.bezierCurveTo(-14, -4, -14, 3, -14, 3);
+            ctx.bezierCurveTo(-14, 8, -6, 14, 0, 18);
+            ctx.bezierCurveTo(6, 14, 14, 8, 14, 3);
+            ctx.bezierCurveTo(14, 3, 14, -4, 8, -4);
+            ctx.bezierCurveTo(4, -4, 0, 0, 0, 3);
+            ctx.fill();
+          } else {
+            ctx.fillStyle = pt.color;
+            ctx.beginPath();
+            ctx.moveTo(0, -14);
+            ctx.quadraticCurveTo(7, -6, 0, 14);
+            ctx.quadraticCurveTo(-7, -6, 0, -14);
+            ctx.fill();
+          }
+          ctx.restore();
+        }
+      }
+
+      update(dt) {
+        // Cập nhật Bokeh
+        for (let p of this.bokehParticles) {
+          p.y += p.speedY;
+          p.x += p.speedX;
+          if (p.y < -10) p.y = this.height + 10;
+          if (p.x < -10) p.x = this.width + 10;
+          if (p.x > this.width + 10) p.x = -10;
+        }
+
+        // Cập nhật hạt phấn hoa vàng
+        if (this.pollenParticles) {
+          const nowSec = performance.now() * 0.001;
+          for (let p of this.pollenParticles) {
+            p.x += p.vx + Math.sin(nowSec * 1.5 + p.phase) * 0.35;
+            p.y += p.vy;
+            if (p.y < this.height * 0.4) {
+              p.y = this.height + 15;
+              p.x = Math.random() * this.width;
+            }
+          }
+        }
+
+        // Cập nhật cánh hoa rơi
+        for (let i = this.petals.length - 1; i >= 0; i--) {
+          const pt = this.petals[i];
+          pt.x += pt.vx;
+          pt.y += pt.vy;
+          pt.vy += pt.gravity;
+          pt.vx *= 0.985;
+          pt.rot += pt.rotSpeed;
+          pt.life -= pt.decay;
+          if (pt.life <= 0 || pt.y > this.height + 40) {
+            this.petals.splice(i, 1);
+          }
+        }
+
+        // Cập nhật vệt chạm
+        for (let i = this.touchSparks.length - 1; i >= 0; i--) {
+          const s = this.touchSparks[i];
+          s.x += s.vx;
+          s.y += s.vy;
+          s.life -= s.decay;
+          if (s.life <= 0) {
+            this.touchSparks.splice(i, 1);
+          }
+        }
+      }
+
+      draw() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        const now = performance.now() * 0.001;
+
+        // 1. Vẽ đốm sáng biển
+        for (let sp of this.sparkles) {
+          const alpha = (Math.sin(now * 4 + sp.phase) + 1) * 0.5;
+          if (alpha > 0.15) {
+            this.ctx.save();
+            this.ctx.beginPath();
+            this.ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.85})`;
+            this.ctx.arc(sp.x, sp.y, sp.size * (0.8 + alpha * 0.6), 0, Math.PI * 2);
+            this.ctx.fill();
+
+            // Vẽ tia sáng chéo hình chữ thập
+            this.ctx.strokeStyle = `rgba(255, 245, 200, ${alpha * 0.6})`;
+            this.ctx.lineWidth = 0.8;
+            this.ctx.beginPath();
+            this.ctx.moveTo(sp.x - sp.size * 2, sp.y);
+            this.ctx.lineTo(sp.x + sp.size * 2, sp.y);
+            this.ctx.moveTo(sp.x, sp.y - sp.size * 2);
+            this.ctx.lineTo(sp.x, sp.y + sp.size * 2);
+            this.ctx.stroke();
+            this.ctx.restore();
+          }
+        }
+
+        // 2. Vẽ Bokeh lơ lửng
+        for (let p of this.bokehParticles) {
+          const currentAlpha = p.alpha * (0.6 + 0.4 * Math.sin(now * 2 + p.pulseOffset));
+          this.ctx.beginPath();
+          const grad = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 2);
+          grad.addColorStop(0, `rgba(255, 245, 200, ${currentAlpha})`);
+          grad.addColorStop(0.5, `rgba(255, 215, 100, ${currentAlpha * 0.5})`);
+          grad.addColorStop(1, 'rgba(255, 183, 3, 0)');
+          this.ctx.fillStyle = grad;
+          this.ctx.arc(p.x, p.y, p.radius * 2, 0, Math.PI * 2);
+          this.ctx.fill();
+        }
+
+        // 2.5. Vẽ bụi phấn hoa vàng ấm bay lên từ vườn hoa hướng dương
+        if (this.pollenParticles) {
+          for (let pol of this.pollenParticles) {
+            const pAlpha = pol.alpha * (0.7 + 0.3 * Math.sin(now * 3 + pol.phase));
+            this.ctx.save();
+            this.ctx.beginPath();
+            const pGrad = this.ctx.createRadialGradient(pol.x, pol.y, 0, pol.x, pol.y, pol.radius * 1.8);
+            pGrad.addColorStop(0, `rgba(255, 235, 120, ${pAlpha})`);
+            pGrad.addColorStop(0.6, `rgba(255, 183, 3, ${pAlpha * 0.6})`);
+            pGrad.addColorStop(1, 'rgba(255, 183, 3, 0)');
+            this.ctx.fillStyle = pGrad;
+            this.ctx.arc(pol.x, pol.y, pol.radius * 1.8, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.restore();
+          }
+        }
+
+        // 3. Vệt sáng chạm đã loại bỏ
+
+        // 4. Vẽ Cánh hoa & Trái tim bay
+        for (let pt of this.petals) {
+          this.ctx.save();
+          this.ctx.translate(pt.x, pt.y);
+          this.ctx.rotate((pt.rot * Math.PI) / 180);
+          this.ctx.scale(pt.scale, pt.scale);
+          this.ctx.globalAlpha = pt.life;
+
+          if (pt.isHeart) {
+            // Vẽ trái tim nhỏ màu hồng cam
+            this.ctx.fillStyle = '#E63946';
+            this.ctx.beginPath();
+            const topCurveHeight = 4;
+            this.ctx.moveTo(0, 3);
+            this.ctx.bezierCurveTo(0, 0, -4, -4, -8, -4);
+            this.ctx.bezierCurveTo(-14, -4, -14, 3, -14, 3);
+            this.ctx.bezierCurveTo(-14, 8, -6, 14, 0, 18);
+            this.ctx.bezierCurveTo(6, 14, 14, 8, 14, 3);
+            this.ctx.bezierCurveTo(14, 3, 14, -4, 8, -4);
+            this.ctx.bezierCurveTo(4, -4, 0, 0, 0, 3);
+            this.ctx.fill();
+          } else {
+            // Vẽ cánh hoa hướng dương vàng óng
+            this.ctx.fillStyle = pt.color;
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, -14);
+            this.ctx.quadraticCurveTo(7, -6, 0, 14);
+            this.ctx.quadraticCurveTo(-7, -6, 0, -14);
+            this.ctx.fill();
+          }
+          this.ctx.restore();
+        }
+      }
+
+      loop() {
+        requestAnimationFrame(() => this.loop());
+        if (!this.isTabActive) return;
+
+        const now = performance.now();
+        const dt = (now - this.lastTime) * 0.001;
+        this.lastTime = now;
+
+        this.update(dt);
+        this.draw();
+        this.updateCardBurst();
+      }
+    }
+
+    /* ==========================================================================
+       BỘ DỰNG CÁNH ĐỒNG HOA HƯỚNG DƯƠNG BẠT NGÀN (42 ĐÓA HOA BOTANICAL ĐA TẦNG)
+       "Bông trước bông sau, bông to bông nhỏ" - Chuẩn sinh thái học theo ảnh thật
+       ========================================================================== */
+    class SunflowerGarden {
+      constructor(containerId, fxEngine) {
+        this.container = document.getElementById(containerId);
+        this.fx = fxEngine;
+        this.flowers = [];
+        this.renderToken = 0;
+        this.renderFrame = null;
+        this.renderGarden();
+        this.bindEvents();
+      }
+
+      // Tạo cấu trúc SVG sinh thái học chi tiết (Botanical Sunflower SVG)
+      // Tái hiện chân thực đóa hoa hướng dương với tâm nhụy xanh ô-liu nhung và 3 lớp cánh vàng rực rỡ
+      createSunflowerSVG(idIndex, cfg) {
+        // 1. Tâm nhụy xanh ô-liu non (Signature Olive-Green Velvet Center như ảnh mẫu)
+        const isSmallFlower = cfg.height <= 200;
+        const isMediumFlower = cfg.height > 200 && cfg.height <= 350;
+        // Giam so node SVG o hoa lon de giam khung hinh bi qua tai khi bat dau no.
+        // Hoa nho van giu it chi tiet hon hoa tien canh de tao chieu sau.
+        const greenDotCount = isSmallFlower ? 8 : isMediumFlower ? 12 : 24;
+        const seedCount = isSmallFlower ? 25 : isMediumFlower ? 40 : 70;
+        const floretCount = isSmallFlower ? 16 : isMediumFlower ? 22 : 32;
+        const sepalCount = isSmallFlower ? 8 : isMediumFlower ? 10 : 14;
+        const petalCount = isSmallFlower ? 10 : isMediumFlower ? 14 : 22;
+        const innerCount = isSmallFlower ? 8 : isMediumFlower ? 10 : 16;
+        const petalFilter = isSmallFlower ? '' : `filter="url(#petalShadow_${idIndex})"`;
+
+        let greenCenterDots = '';
+        const cg = 2.8;
+        for (let g = 0; g < greenDotCount; g++) {
+          const rg = cg * Math.sqrt(g);
+          const thetag = g * 137.507764 * (Math.PI / 180);
+          const gx = 150 + rg * Math.cos(thetag);
+          const gy = 150 + rg * Math.sin(thetag);
+          const gRadius = 1.0 + (g / greenDotCount) * 0.9;
+          const gTone = g % 2 === 0 ? '#3B5919' : '#577C27';
+          greenCenterDots += `<circle cx="${gx.toFixed(1)}" cy="${gy.toFixed(1)}" r="${gRadius.toFixed(1)}" fill="${gTone}"/>`;
+        }
+
+        // 2. Vành hạt nhụy nâu chocolate xếp theo góc vàng chuẩn Fibonacci (137.508 độ)
+        let seedDots = '';
+        const c = 4.3;
+        for (let n = 0; n < seedCount; n++) {
+          const r = c * Math.sqrt(n);
+          // Bỏ qua vùng tâm xanh để tạo sự phân tầng rõ rệt như hoa thật
+          if (r < 18) continue;
+          const theta = n * 137.507764 * (Math.PI / 180);
+          const x = 150 + r * Math.cos(theta);
+          const y = 150 + r * Math.sin(theta);
+          const dotRadius = 1.3 + (n / seedCount) * 1.5;
+
+          let tone = '#241104';
+          if (n >= 40 && n < 85) {
+            tone = n % 2 === 0 ? '#421E07' : '#5A2A0A';
+          } else if (n >= 85) {
+            tone = n % 3 === 0 ? '#874714' : (n % 2 === 0 ? '#6B360C' : '#9E5516');
+          }
+          seedDots += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${dotRadius.toFixed(1)}" fill="${tone}"/>`;
+        }
+
+        // 3. Vành nhụy bao ngoài: 44 ống hoa nhỏ vàng óng (Tubular Florets) tạo viền phấn hoa bồng bềnh
+        let floretFringe = '';
+        for (let f = 0; f < floretCount; f++) {
+          const deg = (360 / floretCount) * f;
+          const rad = deg * (Math.PI / 180);
+          const fx = 150 + 49.5 * Math.cos(rad);
+          const fy = 150 + 49.5 * Math.sin(rad);
+          floretFringe += `<circle cx="${fx.toFixed(1)}" cy="${fy.toFixed(1)}" r="2.4" fill="#FFAA00" opacity="0.95"/>`;
+          if (f % 2 === 0) {
+            floretFringe += `<circle cx="${(fx + Math.cos(rad)*2.2).toFixed(1)}" cy="${(fy + Math.sin(rad)*2.2).toFixed(1)}" r="1.5" fill="#FFE57F"/>`;
+          }
+        }
+
+        // 4. Lớp đài hoa xanh đỡ đáy (Sepals / Calyx) - 18 lá đài nhọn
+        let sepals = '';
+        for (let s = 0; s < sepalCount; s++) {
+          const degSepal = (360 / sepalCount) * s;
+          sepals += `
+            <path d="M150,150 C138,82 130,35 150,16 C170,35 162,82 150,150 Z"
+                  fill="url(#sepalGrad_${idIndex})"
+                  stroke="#173510" stroke-width="0.9"
+                  transform="rotate(${degSepal} 150 150)" />
+          `;
+        }
+
+        // 5. CÁC LỚP CÁNH HOA TÁCH BẠCH RÕ RÀNG NHƯ ẢNH THỰC TẾ (SHARPLY DEFINED 3D PETALS)
+
+        // Lớp cánh sau (Back Petals - 28 cánh): Sắc cam hổ phách đậm hơn, có viền nét rõ rệt
+        let backPetals = '';
+        for (let i = 0; i < petalCount; i++) {
+          const deg = (360 / petalCount) * i;
+          const lenVar = 14 + (i % 3) * 4;
+          backPetals += `
+            <g transform="rotate(${deg} 150 150)">
+              <!-- Cánh hoa sau với viền tối tách biệt rõ nét từng cánh -->
+              <path d="M 144,142 C 134,108 131,68 142,36 C 146,24 148,16 150,${lenVar} C 152,16 154,24 158,36 C 169,68 166,108 156,142 Z"
+                    fill="url(#petalGradBack_${idIndex})"
+                    stroke="rgba(145, 48, 0, 0.75)" stroke-width="1.15" stroke-linejoin="round"/>
+              <!-- Sống gân giữa cánh sau -->
+              <path d="M150,138 L150,${lenVar + 8}" stroke="rgba(165, 50, 0, 0.45)" stroke-width="1.0" fill="none"/>
+            </g>
+          `;
+        }
+
+        // Lớp cánh trước (Front Petals - 28 cánh so le): Sáng rực rỡ, đổ bóng drop-shadow lên lớp cánh sau
+        let frontPetals = '';
+        for (let i = 0; i < petalCount; i++) {
+          const deg = (360 / petalCount) * (i + 0.5); // So le xen kẽ
+          const lenVar = 18 + ((i + 1) % 3) * 5;
+          frontPetals += `
+            <g transform="rotate(${deg} 150 150)">
+              <!-- Cánh hoa trước với viền nét rõ ràng và khối nổi 3D tách bạch -->
+              <path d="M 145,142 C 135,110 132,70 143,38 C 147,26 148,18 150,${lenVar} C 152,18 153,26 157,38 C 168,70 165,110 155,142 Z"
+                    fill="url(#petalGradFront_${idIndex})"
+                    stroke="rgba(165, 58, 0, 0.7)" stroke-width="1.25" stroke-linejoin="round"/>
+              <!-- Khối sống lưng: Rãnh bóng tối bên phải -->
+              <path d="M151,135 Q152.5,75 151,${lenVar + 8}" stroke="rgba(150, 45, 0, 0.45)" stroke-width="1.1" fill="none"/>
+              <!-- Khối sống lưng: Sống bắt sáng bên trái -->
+              <path d="M149,135 Q147.5,75 149,${lenVar + 8}" stroke="rgba(255, 255, 220, 0.75)" stroke-width="1.3" fill="none"/>
+              <!-- Các đường sọc gân phụ mềm mại -->
+              <path d="M147,105 Q140,70 144,42" stroke="rgba(255, 240, 150, 0.4)" stroke-width="0.8" fill="none"/>
+              <path d="M153,105 Q160,70 156,42" stroke="rgba(255, 240, 150, 0.4)" stroke-width="0.8" fill="none"/>
+            </g>
+          `;
+        }
+
+        // Lớp cánh nhỏ viền ôm sát nhụy hoa (Inner Accents - 22 cánh)
+        let innerPetals = '';
+        for (let i = 0; i < innerCount; i++) {
+          const deg = (360 / innerCount) * (i + 0.25);
+          innerPetals += `
+            <g transform="rotate(${deg} 150 150)">
+              <path d="M 146,144 C 138,118 135,76 150,52 C 165,76 162,118 154,144 Z"
+                    fill="url(#petalGradInner_${idIndex})"
+                    stroke="rgba(175, 60, 0, 0.6)" stroke-width="1.0" stroke-linejoin="round"/>
+            </g>
+          `;
+        }
+
+        // Độ cong ngẫu nhiên và góc nghiêng của thân hoa
+        const curveX = 140 + (idIndex % 5) * 5;
+        const headTilt = cfg.tilt || 0;
+
+        return `
+          <svg class="sunflower-svg" viewBox="0 0 300 480" preserveAspectRatio="xMidYMax meet">
+            <defs>
+              <!-- Bộ lọc đổ bóng mềm giữa các lớp cánh hoa tạo chiều sâu 3D -->
+              ${isSmallFlower ? '' : `<filter id="petalShadow_${idIndex}" x="-25%" y="-25%" width="150%" height="150%">
+                <feDropShadow dx="0" dy="2.6" stdDeviation="1.8" flood-color="rgba(75, 25, 0, 0.5)"/>
+              </filter>`}
+
+              <!-- Gradient đài hoa xanh -->
+              <linearGradient id="sepalGrad_${idIndex}" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#1B3B12"/>
+                <stop offset="60%" stop-color="#366D24"/>
+                <stop offset="100%" stop-color="#559938"/>
+              </linearGradient>
+
+              <!-- Gradient thân cây -->
+              <linearGradient id="stemGrad_${idIndex}" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#244A1B"/>
+                <stop offset="45%" stop-color="#4C8A33"/>
+                <stop offset="100%" stop-color="#1E3E17"/>
+              </linearGradient>
+
+              <!-- Gradient cánh hoa sau: Sắc cam hổ phách đậm tạo độ sâu -->
+              <linearGradient id="petalGradBack_${idIndex}" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#B83E00"/>
+                <stop offset="35%" stop-color="#E86E00"/>
+                <stop offset="70%" stop-color="#FF9E00"/>
+                <stop offset="100%" stop-color="#FFCE1A"/>
+              </linearGradient>
+
+              <!-- Gradient cánh hoa trước: Sắc vàng nắng rực rỡ bắt sáng -->
+              <linearGradient id="petalGradFront_${idIndex}" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#CC4D00"/>
+                <stop offset="30%" stop-color="#FFA000"/>
+                <stop offset="65%" stop-color="#FFC700"/>
+                <stop offset="100%" stop-color="#FFF394"/>
+              </linearGradient>
+
+              <!-- Gradient cánh hoa trong -->
+              <linearGradient id="petalGradInner_${idIndex}" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#A53500"/>
+                <stop offset="45%" stop-color="#FF8C00"/>
+                <stop offset="100%" stop-color="#FFE066"/>
+              </linearGradient>
+
+              <!-- Gradient đĩa hạt nâu chocolate ấm -->
+              <radialGradient id="diskGrad_${idIndex}" cx="46%" cy="46%" r="58%">
+                <stop offset="0%" stop-color="#4A2508"/>
+                <stop offset="50%" stop-color="#321604"/>
+                <stop offset="90%" stop-color="#1D0C02"/>
+                <stop offset="100%" stop-color="#100501"/>
+              </radialGradient>
+
+              <!-- Gradient tâm nhụy xanh ô-liu non (Tái hiện trung thực ảnh mẫu thực tế) -->
+              <radialGradient id="greenCoreGrad_${idIndex}" cx="44%" cy="44%" r="55%">
+                <stop offset="0%" stop-color="#84A936"/>
+                <stop offset="40%" stop-color="#648828"/>
+                <stop offset="75%" stop-color="#4B6A1E"/>
+                <stop offset="100%" stop-color="#2D4212"/>
+              </radialGradient>
+            </defs>
+
+            <!-- 1. Thân hoa uốn lượn tự nhiên -->
+            <path class="flower-stem"
+                  pathLength="1"
+                  d="M150,480 Q${curveX},310 150,150"
+                  stroke="url(#stemGrad_${idIndex})"
+                  stroke-width="14"
+                  stroke-linecap="round"
+                  fill="none"/>
+
+            <!-- 2. Lá cây với cấu trúc gân chính & gân phụ chi tiết -->
+            <g class="flower-leaves">
+              <!-- Lá trái to hình tim -->
+              <g>
+                <path d="M148,310 C85,295 38,335 15,368 C68,400 128,370 148,340 Z" fill="#3D752A"/>
+                <path d="M148,322 Q85,345 20,368" stroke="#264D1A" stroke-width="2.2" fill="none"/>
+                <path d="M125,328 Q95,315 70,325" stroke="#264D1A" stroke-width="1.2" fill="none"/>
+                <path d="M100,338 Q75,330 50,345" stroke="#264D1A" stroke-width="1.2" fill="none"/>
+                <path d="M75,350 Q55,348 35,360" stroke="#264D1A" stroke-width="1" fill="none"/>
+                <ellipse cx="65" cy="342" rx="3.5" ry="2.2" fill="rgba(255, 255, 255, 0.72)" transform="rotate(-15 65 342)"/>
+              </g>
+
+              <!-- Lá phải vươn đón nắng -->
+              <g>
+                <path d="M152,250 C215,225 262,248 288,285 C242,320 180,296 152,270 Z" fill="#4B8D34"/>
+                <path d="M152,260 Q215,268 280,283" stroke="#2F5C20" stroke-width="2.2" fill="none"/>
+                <path d="M178,264 Q205,248 235,255" stroke="#2F5C20" stroke-width="1.2" fill="none"/>
+                <path d="M210,270 Q238,260 262,272" stroke="#2F5C20" stroke-width="1.2" fill="none"/>
+              </g>
+            </g>
+
+            <!-- 3. Đầu hoa (Head) nghiêng tự nhiên theo góc cfg.tilt -->
+            <g class="flower-head" id="head_${idIndex}" transform="rotate(${headTilt} 150 150)">
+              <!-- Lớp đài hoa xanh ở đáy -->
+              <g class="flower-sepals">${sepals}</g>
+
+              <!-- Vành bóng tối ở hốc chân cánh hoa viền quanh nhụy -->
+              <circle cx="150" cy="150" r="53" fill="none" stroke="rgba(38, 12, 0, 0.68)" stroke-width="7" opacity="0.85"/>
+
+              <!-- Vòng cánh hoa vàng cam rực rỡ với từng cánh tách bạch rõ nét -->
+              <g class="petal-ring">
+                <!-- Lớp cánh sau sắc cam đậm -->
+                <g class="petals-back">${backPetals}</g>
+                <!-- Lớp cánh trước sáng rực đổ bóng 3D lên lớp sau -->
+                <g class="petals-front" ${petalFilter}>${frontPetals}</g>
+                <!-- Lớp cánh trong ôm sát nhụy -->
+                <g class="petals-inner">${innerPetals}</g>
+              </g>
+
+              <!-- Nhụy hoa chân thực: Đĩa hạt Fibonacci + Tâm xanh non ô-liu -->
+              <g class="flower-disk">
+                <!-- Đĩa nhụy nền nhung sẫm -->
+                <circle cx="150" cy="150" r="50" fill="url(#diskGrad_${idIndex})" stroke="#FFB703" stroke-width="1.8"/>
+                <!-- Vành hoa nhỏ màu vàng phấn bao quanh -->
+                <g class="floret-fringe">${floretFringe}</g>
+                <!-- Hạt nhụy Fibonacci tỏa xoắn ốc -->
+                <g class="fibonacci-seeds">${seedDots}</g>
+
+                <!-- TÂM XANH Ô-LIU NON ĐẶC TRƯNG CỦA HOA HƯỚNG DƯƠNG TỰ NHIÊN -->
+                <circle cx="150" cy="150" r="23" fill="url(#greenCoreGrad_${idIndex})" stroke="#729730" stroke-width="1"/>
+                <!-- Các hạt non mềm trong tâm xanh -->
+                <g class="green-core-florets">${greenCenterDots}</g>
+                <!-- Vầng hào quang ánh sáng ấm nhẹ -->
+                <circle cx="150" cy="150" r="14" fill="rgba(255, 235, 120, 0.16)"/>
+              </g>
+            </g>
+          </svg>
+        `;
+      }
+
+      renderGarden() {
+        this.container.innerHTML = '';
+        this.flowers = [];
+
+        // BỐ CỤC 42 ĐÓA HOA HƯỚNG DƯƠNG: "BÔNG TRƯỚC BÔNG SAU, BÔNG TO BÔNG NHỎ"
+        // Tạo thành một cánh đồng hoa hướng dương ngút ngàn, đan cài lớp lang tự nhiên
+        const flowerConfigs = [
+          // --- TẦNG 0: CHÂN TRỜI & TRIỀN ĐỒI (12 BÔNG NHỎ XINH) ---
+          { left: '1%',  bottom: '18%', scale: 0.38, zIndex: 6, height: 160, delay: 150, tilt: 6,   sway: 1, filter: 'saturate(0.9) brightness(0.95)' },
+          { left: '9%',  bottom: '22%', scale: 0.42, zIndex: 7, height: 180, delay: 280, tilt: -8,  sway: 2, filter: 'saturate(0.9) brightness(0.95)' },
+          { left: '18%', bottom: '19%', scale: 0.36, zIndex: 6, height: 155, delay: 200, tilt: 5,   sway: 3, filter: 'saturate(0.9) brightness(0.95)' },
+          { left: '26%', bottom: '23%', scale: 0.44, zIndex: 7, height: 185, delay: 350, tilt: -5,  sway: 1, filter: 'saturate(0.9) brightness(0.95)' },
+          { left: '35%', bottom: '20%', scale: 0.40, zIndex: 6, height: 170, delay: 250, tilt: 10,  sway: 2, filter: 'saturate(0.9) brightness(0.95)' },
+          { left: '44%', bottom: '24%', scale: 0.45, zIndex: 7, height: 190, delay: 400, tilt: -7,  sway: 3, filter: 'saturate(0.9) brightness(0.95)' },
+          { left: '53%', bottom: '21%', scale: 0.39, zIndex: 6, height: 165, delay: 220, tilt: 4,   sway: 1, filter: 'saturate(0.9) brightness(0.95)' },
+          { left: '62%', bottom: '25%', scale: 0.46, zIndex: 7, height: 195, delay: 450, tilt: -8,  sway: 2, filter: 'saturate(0.9) brightness(0.95)' },
+          { left: '71%', bottom: '20%', scale: 0.41, zIndex: 6, height: 175, delay: 300, tilt: 7,   sway: 3, filter: 'saturate(0.9) brightness(0.95)' },
+          { left: '80%', bottom: '23%', scale: 0.43, zIndex: 7, height: 180, delay: 380, tilt: -6,  sway: 1, filter: 'saturate(0.9) brightness(0.95)' },
+          { left: '89%', bottom: '19%', scale: 0.37, zIndex: 6, height: 160, delay: 240, tilt: 5,   sway: 2, filter: 'saturate(0.9) brightness(0.95)' },
+          { left: '97%', bottom: '22%', scale: 0.42, zIndex: 7, height: 180, delay: 360, tilt: -5,  sway: 3, filter: 'saturate(0.9) brightness(0.95)' },
+
+          // --- TẦNG 1: ĐỒNG HOA PHÍA SAU (12 BÔNG NHỎ-VỪA) ---
+          { left: '4%',  bottom: '12%', scale: 0.56, zIndex: 8, height: 240, delay: 500, tilt: -10, sway: 2, filter: 'saturate(0.94) brightness(0.97)' },
+          { left: '13%', bottom: '15%', scale: 0.62, zIndex: 9, height: 265, delay: 620, tilt: 8,   sway: 1, filter: 'saturate(0.94) brightness(0.97)' },
+          { left: '22%', bottom: '11%', scale: 0.54, zIndex: 8, height: 230, delay: 550, tilt: -6,  sway: 3, filter: 'saturate(0.94) brightness(0.97)' },
+          { left: '30%', bottom: '16%', scale: 0.65, zIndex: 9, height: 275, delay: 700, tilt: 12,  sway: 2, filter: 'saturate(0.94) brightness(0.97)' },
+          { left: '39%', bottom: '13%', scale: 0.58, zIndex: 8, height: 250, delay: 580, tilt: -8,  sway: 1, filter: 'saturate(0.94) brightness(0.97)' },
+          { left: '48%', bottom: '17%', scale: 0.66, zIndex: 9, height: 280, delay: 750, tilt: 5,   sway: 3, filter: 'saturate(0.94) brightness(0.97)' },
+          { left: '57%', bottom: '12%', scale: 0.55, zIndex: 8, height: 235, delay: 520, tilt: -11, sway: 2, filter: 'saturate(0.94) brightness(0.97)' },
+          { left: '66%', bottom: '16%', scale: 0.64, zIndex: 9, height: 270, delay: 720, tilt: 9,   sway: 1, filter: 'saturate(0.94) brightness(0.97)' },
+          { left: '75%', bottom: '13%', scale: 0.57, zIndex: 8, height: 245, delay: 600, tilt: -7,  sway: 3, filter: 'saturate(0.94) brightness(0.97)' },
+          { left: '84%', bottom: '15%', scale: 0.63, zIndex: 9, height: 268, delay: 680, tilt: 10,  sway: 2, filter: 'saturate(0.94) brightness(0.97)' },
+          { left: '92%', bottom: '11%', scale: 0.53, zIndex: 8, height: 228, delay: 540, tilt: -8,  sway: 1, filter: 'saturate(0.94) brightness(0.97)' },
+          { left: '99%', bottom: '14%', scale: 0.60, zIndex: 9, height: 255, delay: 650, tilt: 6,   sway: 3, filter: 'saturate(0.94) brightness(0.97)' },
+
+          // --- TẦNG 2: TRUNG CẢNH (10 BÔNG VỪA) ---
+          { left: '6%',  bottom: '4%',  scale: 0.82, zIndex: 11, height: 350, delay: 850,  tilt: 8,   sway: 1 },
+          { left: '16%', bottom: '7%',  scale: 0.88, zIndex: 12, height: 375, delay: 950,  tilt: -12, sway: 2 },
+          { left: '25%', bottom: '3%',  scale: 0.78, zIndex: 11, height: 335, delay: 880,  tilt: 6,   sway: 3 },
+          { left: '36%', bottom: '8%',  scale: 0.90, zIndex: 12, height: 385, delay: 1050, tilt: -7,  sway: 1 },
+          { left: '46%', bottom: '5%',  scale: 0.84, zIndex: 11, height: 360, delay: 920,  tilt: 11,  sway: 2 },
+          { left: '55%', bottom: '7%',  scale: 0.86, zIndex: 12, height: 370, delay: 1000, tilt: -9,  sway: 3 },
+          { left: '65%', bottom: '4%',  scale: 0.80, zIndex: 11, height: 345, delay: 900,  tilt: 7,   sway: 1 },
+          { left: '74%', bottom: '8%',  scale: 0.89, zIndex: 12, height: 380, delay: 1080, tilt: -10, sway: 2 },
+          { left: '83%', bottom: '5%',  scale: 0.83, zIndex: 11, height: 355, delay: 940,  tilt: 8,   sway: 3 },
+          { left: '93%', bottom: '6%',  scale: 0.87, zIndex: 12, height: 370, delay: 1020, tilt: -8,  sway: 1 },
+
+          // --- TẦNG 3: CẬN CẢNH (8 BÔNG LỚN NỔI BẬT LỘNG LẪY) ---
+          { left: '-2%', bottom: '-20px', scale: 1.25, zIndex: 15, height: 510, delay: 1200, tilt: 10,  sway: 2 },
+          { left: '10%', bottom: '-10px', scale: 1.32, zIndex: 16, height: 535, delay: 1350, tilt: -14, sway: 1 },
+          { left: '21%', bottom: '-5px',  scale: 1.15, zIndex: 14, height: 470, delay: 1250, tilt: 8,   sway: 3 },
+          { left: '33%', bottom: '-15px', scale: 1.20, zIndex: 15, height: 490, delay: 1300, tilt: -8,  sway: 2 },
+          { left: '67%', bottom: '-15px', scale: 1.18, zIndex: 15, height: 485, delay: 1280, tilt: 9,   sway: 1 },
+          { left: '78%', bottom: '-5px',  scale: 1.16, zIndex: 14, height: 475, delay: 1240, tilt: -11, sway: 3 },
+          { left: '88%', bottom: '-10px', scale: 1.35, zIndex: 16, height: 545, delay: 1400, tilt: 12,  sway: 2 },
+          { left: '99%', bottom: '-20px', scale: 1.22, zIndex: 15, height: 500, delay: 1220, tilt: -8,  sway: 1 }
+        ];
+
+        const renderToken = ++this.renderToken;
+        if (this.renderFrame !== null) {
+          cancelAnimationFrame(this.renderFrame);
+          this.renderFrame = null;
+        }
+
+        // Nở theo từng làn từ hai đầu chiều sâu tiến vào giữa:
+        // hậu cảnh ngoài cùng -> tiền cảnh -> hậu cảnh trong -> trung cảnh.
+        // Dùng thứ tự render thay cho setTimeout dài để tránh hoa đã render nhưng chờ nở.
+        const bloomRank = (cfg) => {
+          if (cfg.zIndex <= 7) return 0;
+          if (cfg.zIndex >= 14) return 1;
+          if (cfg.zIndex <= 9) return 2;
+          return 3;
+        };
+        const orderedFlowerConfigs = flowerConfigs
+          .map((config, originalIndex) => ({ config, originalIndex }))
+          .sort((a, b) => bloomRank(a.config) - bloomRank(b.config) || a.originalIndex - b.originalIndex);
+
+        let index = 0;
+        // Moi khung hinh chi tao 2 SVG, tranh tac vu JS dai gay khung animation.
+        const batchSize = 2;
+        const processBatch = () => {
+          if (renderToken !== this.renderToken) return;
+
+          const fragment = document.createDocumentFragment();
+          const batchFlowers = [];
+          const batchEnd = Math.min(index + batchSize, orderedFlowerConfigs.length);
+
+          while (index < batchEnd) {
+            const renderPosition = index++;
+            const { config: cfg, originalIndex: idx } = orderedFlowerConfigs[renderPosition];
+            const flowerEl = document.createElement('div');
+            flowerEl.className = 'sunflower-entity bud';
+            if (cfg.height <= 200) flowerEl.classList.add('simple');
+            if (cfg.zIndex >= 14) flowerEl.classList.add('foreground');
+            flowerEl.id = `flower-${idx}`;
+            flowerEl.style.left = cfg.left;
+            flowerEl.style.bottom = cfg.bottom || '-10px';
+            flowerEl.style.zIndex = cfg.zIndex;
+            flowerEl.style.width = `${cfg.height * 0.62}px`;
+            flowerEl.style.height = `${cfg.height}px`;
+            if (cfg.filter) flowerEl.style.filter = cfg.filter;
+            // Pha am giup moi hoa bat dau o vi tri khac nhau nhung chuyen dong ngay lap tuc.
+            flowerEl.style.animationDelay = `${(-idx * 0.12).toFixed(2)}s`;
+
+            flowerEl.innerHTML = this.createSunflowerSVG(idx, cfg);
+            fragment.appendChild(flowerEl);
+            batchFlowers.push({ el: flowerEl, config: cfg, index: idx });
+
+            this.flowers.push({
+              el: flowerEl,
+              head: flowerEl.querySelector('.flower-head'),
+              config: cfg
+            });
+
+          }
+
+          this.container.appendChild(fragment);
+
+          // Bat dau dung dua ngay sau khi them vao DOM.
+          // Hai frame cho trinh duyet ghi nhan trang thai bud truoc khi bung canh,
+          // tranh viec CSS bo qua trang thai ban dau va tao cam giac hoa bi dung.
+          for (const flower of batchFlowers) {
+            if (renderToken !== this.renderToken || !flower.el.isConnected) continue;
+            const swayType = flower.config.sway || ((flower.index % 3) + 1);
+            flower.el.classList.add(`swaying-${swayType}`);
+            flower.el.classList.add('growing');
+
+            // Cho than moc tu goc len truoc; dau hoa bung canh sau khi than gan hoan tat.
+            window.setTimeout(() => {
+              if (renderToken !== this.renderToken || !flower.el.isConnected) return;
+              flower.el.classList.remove('growing', 'bud');
+              flower.el.classList.add('bloomed');
+            }, 520);
+          }
+
+          if (index < orderedFlowerConfigs.length) {
+            this.renderFrame = requestAnimationFrame(processBatch);
+          } else {
+            this.renderFrame = null;
+          }
+        };
+
+        this.renderFrame = requestAnimationFrame(processBatch);
+      }
+
+      bindEvents() {
+        // Hiệu ứng tương tác hoa (click, hover tracking) đã được loại bỏ để tối ưu hiệu suất
+        // Hoa chỉ giữ animation đung đưa CSS thuần, không có JS interaction
+      }
+
+      reset() {
+        this.renderGarden();
+      }
+    }
+
+    /* ==========================================================================
+       HOẠT CẢNH CHÚ CHIM ĐƯA THIỆP & THIỆP RƠI LẮC LƯ
+       ========================================================================== */
+    class BirdDeliveryShow {
+      constructor(onLetterLandedCallback) {
+        this.bird = document.getElementById('messenger-bird');
+        this.beakLetter = document.getElementById('bird-beak-letter');
+        this.fallingEnvelope = document.getElementById('falling-envelope');
+        this.onLetterLanded = onLetterLandedCallback;
+        this.isFlying = false;
+        this.flightTimer = null;
+      }
+
+      start() {
+        if (this.isFlying) return;
+        this.isFlying = true;
+
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        // Điểm điều khiển đường bay cong Bezier
+        // Chim bay từ ngoài màn hình góc trái trên, lượn qua vườn hoa, thả thiệp ở giữa rồi bay vút lên chân trời
+        const p0 = { x: -120, y: h * 0.15 };
+        const p1 = { x: w * 0.35, y: h * 0.48 };
+        const p2 = { x: w * 0.65, y: h * 0.28 };
+        const p3 = { x: w + 150, y: h * 0.08 };
+
+        this.bird.style.opacity = '1';
+        this.beakLetter.style.opacity = '1';
+        this.fallingEnvelope.style.opacity = '0';
+
+        const startTime = performance.now();
+        const duration = 4800; // 4.8 giây toàn bộ hành trình
+        let letterDropped = false;
+
+        // Âm thanh chim hót đã được loại bỏ
+
+        const animateFlight = (now) => {
+          const elapsed = now - startTime;
+          const t = Math.min(1, elapsed / duration);
+
+          // Tính tọa độ đường cong bậc 3 (Cubic Bezier)
+          const cx = 3 * (p1.x - p0.x);
+          const bx = 3 * (p2.x - p1.x) - cx;
+          const ax = p3.x - p0.x - cx - bx;
+
+          const cy = 3 * (p1.y - p0.y);
+          const by = 3 * (p2.y - p1.y) - cy;
+          const ay = p3.y - p0.y - cy - by;
+
+          const x = ax * (t * t * t) + bx * (t * t) + cx * t + p0.x;
+          const y = ay * (t * t * t) + by * (t * t) + cy * t + p0.y;
+
+          // Tính góc nghiêng theo tiếp tuyến quỹ đạo bay (Tangent Rotation)
+          const dx = 3 * ax * (t * t) + 2 * bx * t + cx;
+          const dy = 3 * ay * (t * t) + 2 * by * t + cy;
+          const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+          this.bird.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${angle * 0.6}deg)`;
+
+          // Điểm chim thả thiệp (Khi t đạt khoảng 0.48, ngay trung tâm phía trên vườn hoa)
+          if (t >= 0.48 && !letterDropped) {
+            letterDropped = true;
+            this.dropEnvelope(x + 50, y + 35);
+          }
+
+          if (t < 1) {
+            this.flightTimer = requestAnimationFrame(animateFlight);
+          } else {
+            // Chim bay khuất chân trời
+            this.bird.style.opacity = '0';
+            this.isFlying = false;
+          }
+        };
+
+        this.flightTimer = requestAnimationFrame(animateFlight);
+      }
+
+      // Hoạt cảnh chiếc thiệp rơi lắc lư tự nhiên theo chuyển động lá bay
+      dropEnvelope(startX, startY) {
+        this.beakLetter.style.opacity = '0';
+        this.fallingEnvelope.style.opacity = '1';
+
+        const targetX = window.innerWidth / 2 - 35;
+        const targetY = window.innerHeight * 0.5 - 25;
+
+        const dropStartTime = performance.now();
+        const dropDuration = 2200; // 2.2 giây lắc lư hạ cánh
+
+        const animateDrop = (now) => {
+          const elapsed = now - dropStartTime;
+          const progress = Math.min(1, elapsed / dropDuration);
+
+          // Easing giảm tốc dần khi chạm đáy
+          const easeOut = 1 - Math.pow(1 - progress, 3);
+
+          // Dao động con lắc trái - phải
+          const sway = Math.sin(progress * Math.PI * 5) * (1 - progress) * 55;
+          const currentX = startX + (targetX - startX) * easeOut + sway;
+          const currentY = startY + (targetY - startY) * easeOut;
+          const rotation = Math.cos(progress * Math.PI * 5) * (1 - progress) * 28;
+
+          // Phóng to dần khi tiến lại gần màn hình
+          const scale = 0.7 + easeOut * 0.65;
+
+          this.fallingEnvelope.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) rotate(${rotation}deg) scale(${scale})`;
+
+          if (progress < 1) {
+            requestAnimationFrame(animateDrop);
+          } else {
+            // Hạ cánh thành công: kích hoạt mở tấm thiệp chính
+            this.fallingEnvelope.style.transition = 'all 0.4s ease';
+            this.fallingEnvelope.style.opacity = '0';
+            if (this.onLetterLanded) this.onLetterLanded();
+          }
+        };
+
+        requestAnimationFrame(animateDrop);
+      }
+
+      reset() {
+        if (this.flightTimer) cancelAnimationFrame(this.flightTimer);
+        this.isFlying = false;
+        this.bird.style.opacity = '0';
+        this.bird.style.transform = 'translate3d(-200px, -200px, 0)';
+        this.fallingEnvelope.style.opacity = '0';
+      }
+    }
+
+    /* ==========================================================================
+       BỘ ĐIỀU KHIỂN THIỆP CHÚC MỪNG & TYPEWRITER EFFECT
+       ========================================================================== */
+    class GreetingCardApp {
+      constructor(fxEngine) {
+        this.fx = fxEngine;
+        this.modal = document.getElementById('card-modal');
+        this.cover = document.getElementById('card-cover');
+        this.salutationEl = document.getElementById('modal-salutation');
+        this.textContainer = document.getElementById('typed-message-content');
+        this.cursor = document.getElementById('type-cursor');
+        this.signatureEl = document.getElementById('card-signature-text');
+
+        this.quickOpenBtn = document.getElementById('btn-quick-open');
+        this.closeCardBtn = document.getElementById('btn-close-card');
+        this.reopenBtn = document.getElementById('btn-reopen-card');
+
+        this.replayBtn = document.getElementById('btn-replay-all');
+        this.openEditBtn = document.getElementById('btn-open-edit');
+        this.burstBtn = document.getElementById('btn-burst-hearts');
+
+        // Modal sửa lời chúc
+        this.editModal = document.getElementById('edit-modal');
+        this.inputRecipient = document.getElementById('input-recipient');
+        this.inputSender = document.getElementById('input-sender');
+        this.inputMsg = document.getElementById('input-message');
+        this.saveEditBtn = document.getElementById('btn-save-edit');
+        this.cancelEditBtn = document.getElementById('btn-cancel-edit');
+
+        this.typewriterTimer = null;
+        this.isCardOpened = false;
+
+        this.updateContent();
+        this.bindEvents();
+      }
+
+      updateContent() {
+        this.salutationEl.textContent = `Gửi ${CONFIG.recipient}!`;
+        this.signatureEl.textContent = `– ${CONFIG.sender} ♥`;
+      }
+
+      // Hiệu ứng gõ chữ thư pháp từng ký tự
+      startTypewriter() {
+        if (this.typewriterTimer) clearInterval(this.typewriterTimer);
+        this.textContainer.textContent = '';
+        this.cursor.style.display = 'inline-block';
+
+        const fullText = CONFIG.message;
+        let charIndex = 0;
+
+        this.typewriterTimer = setInterval(() => {
+          if (charIndex < fullText.length) {
+            this.textContainer.textContent += fullText[charIndex];
+            charIndex++;
+
+            // Mỗi 15 ký tự bắn vài hạt lấp lánh nhẹ
+            if (charIndex % 15 === 0) {
+              const rect = this.textContainer.getBoundingClientRect();
+              this.fx.touchSparks.push({
+                x: rect.right,
+                y: rect.bottom - 8,
+                vx: (Math.random() - 0.5) * 1.5,
+                vy: -1,
+                life: 0.9,
+                decay: 0.04,
+                size: 3,
+                color: '#FFD166'
+              });
+            }
+          } else {
+            clearInterval(this.typewriterTimer);
+            // Ẩn con trỏ sau khi gõ xong 3 giây
+            setTimeout(() => {
+              this.cursor.style.display = 'none';
+            }, 3000);
+          }
+        }, CONFIG.typewriterSpeed);
+      }
+
+      openModal() {
+        this.modal.classList.add('active');
+        this.quickOpenBtn.style.display = 'none';
+      }
+
+      closeModal() {
+        this.modal.classList.remove('active');
+        this.quickOpenBtn.style.display = 'flex';
+      }
+
+      // Mở bìa thư 3D
+      openCover() {
+        if (this.isCardOpened) return;
+        this.isCardOpened = true;
+        this.cover.classList.add('opened');
+
+        // Bắn tung hoa và hạt sáng ăn mừng - Đã giảm số lượng
+        const cx = window.innerWidth / 2;
+        const cy = window.innerHeight * 0.45;
+        this.fx.burstCelebration(cx, cy, 18);
+
+        // Bắt đầu gõ lời chúc sau khi bìa lật mở 0.5s
+        setTimeout(() => {
+          this.startTypewriter();
+        }, 550);
+      }
+
+      bindEvents() {
+        // Chạm vào bìa để mở thiệp
+        this.cover.addEventListener('click', () => this.openCover());
+
+        // Nút mở thiệp nhanh
+        this.quickOpenBtn.addEventListener('click', () => {
+          this.openModal();
+          setTimeout(() => this.openCover(), 400);
+        });
+
+        // Nút đóng thiệp
+        this.closeCardBtn.addEventListener('click', () => this.closeModal());
+        this.reopenBtn.addEventListener('click', () => {
+          this.openModal();
+          if (!this.isCardOpened) this.openCover();
+        });
+
+        // Nút thả hoa và tim (không có âm thanh)
+        this.burstBtn.addEventListener('click', (e) => {
+          const rect = this.burstBtn.getBoundingClientRect();
+          this.fx.burstOnCard(rect.left + rect.width / 2, rect.top, 18);
+        });
+
+        // Nút mở form sửa lời chúc
+        this.openEditBtn.addEventListener('click', () => {
+          this.inputRecipient.value = CONFIG.recipient;
+          this.inputSender.value = CONFIG.sender;
+          this.inputMsg.value = CONFIG.message;
+          this.editModal.classList.add('active');
+        });
+
+        // Lưu sửa đổi
+        this.saveEditBtn.addEventListener('click', () => {
+          const newRec = this.inputRecipient.value.trim();
+          const newSen = this.inputSender.value.trim();
+          const newMsg = this.inputMsg.value.trim();
+
+          if (newRec) CONFIG.recipient = newRec;
+          if (newSen) CONFIG.sender = newSen;
+          if (newMsg) CONFIG.message = newMsg;
+
+          this.updateContent();
+          this.editModal.classList.remove('active');
+          this.startTypewriter();
+        });
+
+        this.cancelEditBtn.addEventListener('click', () => {
+          this.editModal.classList.remove('active');
+        });
+      }
+
+      reset() {
+        if (this.typewriterTimer) clearInterval(this.typewriterTimer);
+        this.isCardOpened = false;
+        this.cover.classList.remove('opened');
+        this.textContainer.textContent = '';
+        this.closeModal();
+      }
+    }
+
+    /* ==========================================================================
+       ĐẠO DIỄN CHƯƠNG TRÌNH CHÍNH (MAIN SCENE ORCHESTRATION)
+       ========================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. Khởi tạo Canvas hiệu ứng
+      const fxCanvas = new VisualEffectsCanvas('fx-canvas');
+
+      // 2. Trồng vườn hoa hướng dương
+      const garden = new SunflowerGarden('sunflower-garden', fxCanvas);
+
+      // 3. Khởi tạo tấm thiệp tương tác
+      const cardApp = new GreetingCardApp(fxCanvas);
+
+      // 4. Khởi tạo hoạt cảnh chú chim đưa thiệp
+      const birdShow = new BirdDeliveryShow(() => {
+        // Khi thiệp rơi chạm đất, mở bảng thiệp lên
+        setTimeout(() => {
+          cardApp.openModal();
+        }, 300);
+      });
+
+      // 5. Tự động cho chim bay vào sau khi hoa nở xong
+      let autoShowTimer = setTimeout(() => {
+        birdShow.start();
+      }, CONFIG.autoBirdDelay);
+
+      // 6. Nút "Chúc lại lần nữa" phát lại toàn bộ hoạt cảnh từ đầu
+      cardApp.replayBtn.addEventListener('click', () => {
+        clearTimeout(autoShowTimer);
+        cardApp.reset();
+        birdShow.reset();
+        garden.reset();
+
+        // Đợi hoa nở rồi cho chim bay vào lại
+        autoShowTimer = setTimeout(() => {
+          birdShow.start();
+        }, CONFIG.autoBirdDelay);
+      });
+    });
+  </script>
+</body>
+</html>
