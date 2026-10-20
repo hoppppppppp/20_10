@@ -1880,8 +1880,8 @@
         }
 
         lightweightConfigs.forEach((cfg, idx) => {
-          // Moi cay cach nhau khoang 80ms, them do tre ngau nhien 0-100ms.
-          const renderDelay = idx * 80 + Math.floor(Math.random() * 101);
+          // Tang toc nhe: moi cay cach nhau khoang 65ms, them do tre ngau nhien 0-80ms.
+          const renderDelay = idx * 65 + Math.floor(Math.random() * 81);
           setTimeout(() => {
             const flowerEl = document.createElement('div');
             const swayType = Math.floor(Math.random() * 3) + 1;
