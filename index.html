@@ -1869,39 +1869,48 @@
           { left: '99%', bottom: '-20px', scale: 1.22, zIndex: 15, height: 500, delay: 1220, tilt: -8,  sway: 1 }
         ];
 
-        // Hiển thị khoảng 2/3 số hoa để lấp khoảng trống mà vẫn hạn chế tải SVG.
+        // Chi hien khoang 2/3 so hoa de can bang do day va hieu nang.
         const lightweightConfigs = flowerConfigs.filter((cfg, idx) => idx % 3 !== 1);
+
+        // Tron thu tu cay de hoa xuat hien rai rac tren toan bo khu vuon,
+        // khong lan luot theo tung hang. Van giu khoang cach render de giam lag.
+        for (let i = lightweightConfigs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [lightweightConfigs[i], lightweightConfigs[j]] = [lightweightConfigs[j], lightweightConfigs[i]];
+        }
+
         lightweightConfigs.forEach((cfg, idx) => {
-          const flowerEl = document.createElement('div');
-          // Chon kieu lac rieng cho tung cay, khong de ca vuon lac cung nhip.
-          const swayType = Math.floor(Math.random() * 3) + 1;
-          flowerEl.className = `sunflower-entity bud swaying-${swayType}`;
-          flowerEl.style.animationDuration = `${5.0 + Math.random() * 3.2}s`;
-          flowerEl.style.animationDelay = `${-Math.random() * 7}s`;
-          flowerEl.style.animationDirection = Math.random() < 0.5 ? 'alternate' : 'alternate-reverse';
-          flowerEl.id = `flower-${idx}`;
-          flowerEl.style.left = cfg.left;
-          flowerEl.style.bottom = cfg.bottom || '-10px';
-          flowerEl.style.zIndex = cfg.zIndex;
-          flowerEl.style.width = `${cfg.height * 0.62}px`;
-          flowerEl.style.height = `${cfg.height}px`;
-          if (cfg.filter) flowerEl.style.filter = cfg.filter;
-          // Bat dau chuyen dong ngay tu luc tao phan tu, khong cho animation-delay duong.
-
-          flowerEl.innerHTML = this.createSunflowerSVG(idx, cfg);
-          this.container.appendChild(flowerEl);
-
-          this.flowers.push({
-            el: flowerEl,
-            head: flowerEl.querySelector('.flower-head'),
-            config: cfg
-          });
-
-          // Cho cay bat dau dua ngay; chi hen gio hieu ung no hoa, khong hen gio chuyen dong.
+          // Moi cay cach nhau khoang 80ms, them do tre ngau nhien 0-100ms.
+          const renderDelay = idx * 80 + Math.floor(Math.random() * 101);
           setTimeout(() => {
-            flowerEl.classList.remove('bud');
-            flowerEl.classList.add('bloomed');
-          }, cfg.delay);
+            const flowerEl = document.createElement('div');
+            const swayType = Math.floor(Math.random() * 3) + 1;
+            flowerEl.className = `sunflower-entity bud swaying-${swayType}`;
+            flowerEl.style.animationDuration = `${5.0 + Math.random() * 3.2}s`;
+            flowerEl.style.animationDelay = `${-Math.random() * 7}s`;
+            flowerEl.style.animationDirection = Math.random() < 0.5 ? 'alternate' : 'alternate-reverse';
+            flowerEl.id = `flower-${idx}`;
+            flowerEl.style.left = cfg.left;
+            flowerEl.style.bottom = cfg.bottom || '-10px';
+            flowerEl.style.zIndex = cfg.zIndex;
+            flowerEl.style.width = `${cfg.height * 0.62}px`;
+            flowerEl.style.height = `${cfg.height}px`;
+            if (cfg.filter) flowerEl.style.filter = cfg.filter;
+
+            flowerEl.innerHTML = this.createSunflowerSVG(idx, cfg);
+            this.container.appendChild(flowerEl);
+            this.flowers.push({
+              el: flowerEl,
+              head: flowerEl.querySelector('.flower-head'),
+              config: cfg
+            });
+
+            // Cho moi bong no cach nhau, tranh nhieu transition SVG chay cung khung hinh.
+            setTimeout(() => {
+              flowerEl.classList.remove('bud');
+              flowerEl.classList.add('bloomed');
+            }, 170);
+          }, renderDelay);
         });
       }
 
